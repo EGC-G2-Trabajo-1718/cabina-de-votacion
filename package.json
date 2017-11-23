@@ -1,18 +1,18 @@
 {
-    "name": "cabina_de_votacion",
-    "version": "0.0.1",
-    "description": "Este modulo se encarga de la gestión de los votos.",
-    "main": "srv.js",
-    "author": "ignalelop@alum.us.es",
-    "license": "GNU GPL3",
-    "dependencies": {
-         "rest":"2.0.0",
-         "restify": "6.3.4",
-         "async": "2.6.0",
-         "lodash": "4.17.4"
-    },
-    "scripts": {
-         "start": "node src/main.js"
-    }
+     "name": "cabina_de_votacion",
+     "repository": "https://github.com/EGC-G2-Trabajo-1718/cabina-de-votacion",
+     "version": "0.0.1",
+     "description": "Este modulo se encarga de la gestión de los votos.",
+     "main": "srv.js",
+     "author": "ignalelop@alum.us.es",
+     "license": "GNU GPL3",
+     "dependencies": {
+          "rest": "2.0.0",
+          "restify": "6.3.4",
+          "async": "2.6.0",
+          "lodash": "4.17.4"
+     },
+     "scripts": {
+          "start": "node src/main.js"
+     }
 }
-    
