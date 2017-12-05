@@ -15,12 +15,12 @@ function canVote(user_id, election_id) {
     // Realizamos las comprobaciones de que pueda votar
     // Primero, comprobamos que la fecha de la votación no ha pasado:
     // Al estar la fecha en un formato no reconocido por JS, necesitamos dividirlo y pasarlo por el constructor
-    var start_date = new Date(election.fecha_ini.substr(5, 4), election.fecha_ini.substr(2, 2)
-        ,election.fecha_ini.substr(0, 2),election.fecha_ini.substr(10, 2),
-         election.fecha_ini.substr(13, 2), 0);
-    var end_date = new Date(election.fecha_fin.substr(5, 4), election.fecha_fin.substr(2, 2)
-        ,election.fecha_fin.substr(0, 2),election.fecha_fin.substr(10, 2),
-         election.fecha_fin.substr(13, 2), 0);
+    var start_date = new Date(election.fecha_ini.substr(6, 4), election.fecha_ini.substr(3, 2) - 1
+        ,election.fecha_ini.substr(0, 2),election.fecha_ini.substr(11, 2),
+         election.fecha_ini.substr(14, 2), 0);
+    var end_date = new Date(election.fecha_fin.substr(6, 4), election.fecha_fin.substr(3, 2) - 1
+        ,election.fecha_fin.substr(0, 2),election.fecha_fin.substr(11, 2),
+         election.fecha_fin.substr(14, 2), 0);
     var actual_date = new Date();
 
     // Si no está fuera del rango de votación.
