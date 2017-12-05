@@ -15,7 +15,7 @@ function getUser(username){
 	var req = http.request(options, function(res) {
 		res.setEncoding('utf-8');
 		var responseString='';
-	
+
 		res.on('data', function(data){
 			responseString += data;
 		});
@@ -34,7 +34,7 @@ function getUser(username){
 
 
 
-// le paso el username y me devuelve todos los datos del usuario si existe. 
+// le paso el username y me devuelve todos los datos del usuario si existe.
 function testGetUser(user) {
 	// compruebo con .length ya que es más óptimo
 	return {
@@ -53,7 +53,7 @@ function testGetUser(user) {
 
 // Le paso el user_id y el election_id y compruebo restricciones. Si se cumplen devuelvo la encuesta
 function testGetElection(user_id, election_id) {
-	// Compruebo que existen ambos id	
+	// Compruebo que existen ambos id
 	return {
 		id: "1",
 		id_censo: "288",
@@ -79,7 +79,7 @@ function getElection(election_id){
 	var req = http.request(options, function(res) {
 		res.setEncoding('utf-8');
 		var responseString='';
-	
+
 		res.on('data', function(data){
 			responseString += data;
 		});
@@ -109,7 +109,7 @@ function getQuestions(election_id){
 	var req = http.request(options, function(res) {
 		res.setEncoding('utf-8');
 		var responseString='';
-	
+
 		res.on('data', function(data){
 			responseString += data;
 		});
@@ -126,8 +126,38 @@ function getQuestions(election_id){
 
 }
 
+//Metodo para comprobar doble votacion
+
+function getDobleCheck(id_usuario, election_id){
+//Paso 1- Establecemos el encabezado
+var request = require('request');
+var headers = {
+    'User-Agent':       'Super Agent/0.0.1',
+    'Content-Type':     'application/x-www-form-urlencoded'
+}
+
+//Paso 2- Configuramos la solicitudes
+
+var options = {
+    url     : "https://almacenamiento.nvotesus.es/api/get/comprobar_voto/"+{id_usuario}+"/"+{election_id},
+    method  : 'GET',
+    jar     : true,
+    headers : headers
+}
+
+//Paso 3-Comprobamos si ya ha habido una votacion o no
+var compr=false;
+request(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        compr=true;
+    }
+});
+return compr;
+}
+
 exports.getUser = getUser;
 exports.testGetUser = testGetUser;
 exports.getElection = getElection;
 exports.testGetElection = testGetElection;
 exports.getQuestions = getQuestions;
+exports.getDobleCheck = getDobleCheck;

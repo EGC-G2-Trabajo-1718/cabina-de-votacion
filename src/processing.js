@@ -37,7 +37,11 @@ function canVote(user_id, election_id) {
     }
 
     // TODO Aqui iría la comprobación de doble voto, pero estamos a la espera de la wiki de almacenamiento.
-
+    var election = auth.getDobleCheck(user_id, election_id);
+    //Si devuelve true no podra votar de nuevo
+    if(election){
+      return [false, "cant_vote"];
+    }
     // Si todo lo anterior es correcto, podemos admitir al usuario a votar
     return [true, "can_vote"];
 }
