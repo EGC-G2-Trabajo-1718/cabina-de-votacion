@@ -10,7 +10,8 @@
           "rest": "2.0.0",
           "restify": "6.3.4",
           "async": "2.6.0",
-          "lodash": "4.17.4"
+          "lodash": "4.17.4",
+          "js-base64": "2.4.0"
      },
      "scripts": {
           "start": "node src/main.js"
