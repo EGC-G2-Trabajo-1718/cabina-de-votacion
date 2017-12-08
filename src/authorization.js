@@ -102,7 +102,7 @@ function getQuestions(election_id){
 		"method": "GET",
 		"hostname": url,
 		"port": 80,
-		"path":	"/api/get/pregunta.json?id_votacion="+election_id,
+		"path":	"/api/get/preguntas.json?id="+election_id,
 		"json":true
 	};
 
@@ -132,7 +132,7 @@ function getAnswers(question_id){
 		"method": "GET",
 		"hostname": url,
 		"port": 80,
-		"path":	"/api/get/respuesta.json?id_pregunta="+question_id,
+		"path":	"/api/get/respuestas.json?id="+question_id,
 		"json":true
 	};
 
@@ -190,4 +190,5 @@ exports.testGetUser = testGetUser;
 exports.getElection = getElection;
 exports.testGetElection = testGetElection;
 exports.getQuestions = getQuestions;
+exports.getAnswers = getAnswers;
 exports.getDobleCheck = getDobleCheck;
