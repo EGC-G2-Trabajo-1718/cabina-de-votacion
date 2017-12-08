@@ -5,12 +5,13 @@ function canVote(user_id, election_id) {
     var election = auth.getElection(user_id, election_id);
     // Comprobamos si está vacia
     if(!election) {
-        return [false, "election_not_found"];
+        // TODO: Cambiar a algo más descriptivo
+        return [false, "cant_vote"];
     }
     // Ahora obtenemos el usuario
     var user = auth.getUser(user_id);
     if(!user) {
-        return [false, "user_not_found"];
+        return [false, "cant_vote"];
     }
     // Realizamos las comprobaciones de que pueda votar
     // Primero, comprobamos que la fecha de la votación no ha pasado:
@@ -26,7 +27,7 @@ function canVote(user_id, election_id) {
     // Si no está fuera del rango de votación.
     if(!(start_date < actual_date && end_date > actual_date)) {
         // TODO Cambiar a algo más descriptivo
-        return [false, "election_not_open"];
+        return [false, "cant_vote"];
     }
 
     // Despues hacemos comprobaciones del usuario
