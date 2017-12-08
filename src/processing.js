@@ -1,4 +1,5 @@
 var auth = require('./authorization.js');
+var encryptor = require('./encryptor.js');
 
 function canVote(user_id, election_id) {
     // Obtenemos la elección
@@ -46,4 +47,19 @@ function canVote(user_id, election_id) {
     return [true, "can_vote"];
 }
 
+//TODO está hecha la forma pero hay que acabarla
+function vote(id_user, id_election, answers) {
+	var canvote = canVote(id_user, id_election);
+	if(canvote[1]=="user_not_found"){
+		//TODO hay que terminar esta parte
+		var encrypted_answers = encryptor.encrypt_vote(answers,0);
+		return [200,JSON.stringify({"result":true,"vote":{"id_user":id_user,"id_election":id_election,"encrypted_answers":encrypted_answers}];
+	}else if(canvote[1]=="user_not_found"){
+		return [404,JSON.stringify({"result":false,"reason":canvote[1]})];
+	}else{
+		return [403,JSON.stringify({"result":false,"reason":canvote[1]})];
+	}
+}
+
 exports.canVote = canVote;
+exports.vote = vote;
