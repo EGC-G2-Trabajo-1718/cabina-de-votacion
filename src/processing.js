@@ -53,7 +53,7 @@ function vote(id_user, id_election, answers) {
 	if(canvote[1]=="user_not_found"){
 		//TODO hay que terminar esta parte
 		var encrypted_answers = encryptor.encrypt_vote(answers,0);
-		return [200,JSON.stringify({"result":true,"vote":{"id_user":id_user,"id_election":id_election,"encrypted_answers":encrypted_answers}];
+		return [200,JSON.stringify({"result":true,"vote":{"id_user":id_user,"id_election":id_election,"encrypted_answers":encrypted_answers}})];
 	}else if(canvote[1]=="user_not_found"){
 		return [404,JSON.stringify({"result":false,"reason":canvote[1]})];
 	}else{

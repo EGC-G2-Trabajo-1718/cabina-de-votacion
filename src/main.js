@@ -11,16 +11,18 @@ function canVote(request, response, next) {
 
 // Definimos el método de votación
 function vote(request, response, next) {
-    // Este método se encargará de recibir la solicitud de votación
-    var voting = processing.vote(request.params.id_user, request.params.id_election, request.params.answers);
-    response.send(voting[0],voting[1]);    
+    // Se obtienen los parámetros por body
+    var voting = processing.vote(request.body.id_user, request.body.id_election, request.body.answers);
+    response.send(voting[0],voting[1]);  
 }
 
 // Creamos el servidor
 var server = restify.createServer();
+//Esta línea es necesaria para parsear el cuerpo del mensaje (POST)
+server.use(restify.plugins.bodyParser());
 // Definimos los métodos que se usarán de Callback
 server.get('/api/check/vote.json', canVote);
-server.get('/api/create/vote.json', canVote);
+server.post('/api/create/vote.json', vote);
 
 // Finalmente, ejecutamos el servidor:
 // En principio usaremos el puerto 80.
