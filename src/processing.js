@@ -6,7 +6,6 @@ function canVote(user_id, election_id) {
     var election = auth.getElection(user_id, election_id);
     // Comprobamos si está vacia
     if(!election) {
-        // TODO: Cambiar a algo más descriptivo
         return [false, "cant_vote"];
     }
     // Ahora obtenemos el usuario
@@ -27,18 +26,15 @@ function canVote(user_id, election_id) {
 
     // Si no está fuera del rango de votación.
     if(!(start_date < actual_date && end_date > actual_date)) {
-        // TODO Cambiar a algo más descriptivo
         return [false, "cant_vote"];
     }
 
     // Despues hacemos comprobaciones del usuario
     // Si el usuario no está en el grupo que puede votar:
     if(user.id_grupo != election.id_grupo) {
-        // TODO Cambiar a algo más descriptivo
         return [false, "cant_vote"];
     }
 
-    // TODO Aqui iría la comprobación de doble voto, pero estamos a la espera de la wiki de almacenamiento.
     var election = auth.getDobleCheck(user_id, election_id);
     //Si devuelve true no podra votar de nuevo
     if(election){

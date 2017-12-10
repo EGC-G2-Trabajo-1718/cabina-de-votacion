@@ -119,7 +119,6 @@ function getAnswers(question_id){
 }
 
 //Metodo para comprobar doble votacion
-
 function getDobleCheck(id_usuario, election_id){
 	//Paso 1- Establecemos el encabezado
 	var request = require('request');
