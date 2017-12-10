@@ -185,6 +185,24 @@ request(options, function (error, response, body) {
 return compr;
 }
 
+//Implementación de la obtención de las autoridades para el cifrado
+function getAuthority(id){
+	//Obtenemos la peticion
+	var requestURL = 'http://egc-votacion1718.es/api/get/votacion.json?id='+id;
+	var request = new XMLHttpRequest();
+	request.open('GET', requestURL);
+	request.responseType = 'json';
+	request.send();
+
+  var authority = request.response;
+	//Devolvemos la clave
+	return authority.clave;
+
+
+}
+
+
+
 exports.getUser = getUser;
 exports.testGetUser = testGetUser;
 exports.getElection = getElection;
@@ -192,3 +210,4 @@ exports.testGetElection = testGetElection;
 exports.getQuestions = getQuestions;
 exports.getAnswers = getAnswers;
 exports.getDobleCheck = getDobleCheck;
+exports.getAuthority = getAuthority;
