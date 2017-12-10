@@ -49,13 +49,15 @@ function vote(id_user, id_election, answers) {
 	var canvote = canVote(id_user, id_election);
 	// Comprobamos que el usuario pueda votar en esa encuesta usando la función canVote
 	if(canvote[1]=="can_vote"){
-	// Procedemos a encriptar 
-        var encrypted_answers = encryptor.encrypt_vote(answers,0);
+		//Obtenemos la clave con la que vamos a encriptar el voto
+		var key = auth.getAuthority(id_election);
+		// Procedemos a encriptar 
+        var encrypted_answers = encryptor.encrypt_vote(answers,key);
         // Comprobamos que el envío a almacenamiento es correcto:
         if(!authorization.saveVote(encrypted_answers, id_election, id_user)) {
 	    // Si no es correcto se mostrará el mensaje de error en el envío
             return [500, JSON.stringify({"result": false, "reason":"error_sending"})];
-        } else {
+		} else {
 	    // En caso de éxito se enviará el voto 
             return [200,JSON.stringify({"result":true,"vote":{"id_user":id_user,"id_election":id_election,"encrypted_answers":encrypted_answers}})];
         } 
