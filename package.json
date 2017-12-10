@@ -1,7 +1,7 @@
 {
      "name": "cabina_de_votacion",
      "repository": "https://github.com/EGC-G2-Trabajo-1718/cabina-de-votacion",
-     "version": "0.0.1",
+     "version": "1.0.0",
      "description": "Este modulo se encarga de la gestión de los votos.",
      "main": "tests.js",
      "author": "ignalelop@alum.us.es",
