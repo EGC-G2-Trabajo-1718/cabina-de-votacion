@@ -51,8 +51,13 @@ function canVote(user_id, election_id) {
 function vote(id_user, id_election, answers) {
 	var canvote = canVote(id_user, id_election);
 	if(canvote[1]=="can_vote"){
-		var encrypted_answers = encryptor.encrypt_vote(answers,0);
-		return [200,JSON.stringify({"result":true,"vote":{"id_user":id_user,"id_election":id_election,"encrypted_answers":encrypted_answers}})];	
+        var encrypted_answers = encryptor.encrypt_vote(answers,0);
+        // Comprobamos que el envío a almacenamiento es correcto:
+        if(!authorization.saveVote(encrypted_vote, id_election, id_user)) {
+            return [500, JSON.stringify({"result": false, "reason":"error_sending"})];
+        } else {
+            return [200,JSON.stringify({"result":true,"vote":{"id_user":id_user,"id_election":id_election,"encrypted_answers":encrypted_answers}})];
+        }
 	}else if(canvote[1]=="election_not_found"){
 		return [404,JSON.stringify({"result":false,"reason":canvote[1]})];
 	}else if(canvote[1]=="user_not_found"){
