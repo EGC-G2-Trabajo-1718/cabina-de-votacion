@@ -1,26 +1,24 @@
 language: node_js
 
 node_js:
-	- "node"
-	- "9"
-
+- "node"
+- "9"
 install:
-	- npm install
+- npm install
 
 script:
-	- npm test
+- npm test
 
 notifications:
-	email:
-		recipients:
-			- jorgegaguilar@hotmail.es
-			- antonio.rdgz.a@gmail.com
-			- dinossolatte@gmail.com
-			- yuukiizumi@hotmail.es
-			- karli-chin@hotmail.com
-	on_success: never
-	on_failure: always
-
+ email:
+  recipients:
+  - jorgegaguilar@hotmail.es
+  - antonio.rdgz.a@gmail.com
+  - dinossolatte@gmail.com
+  - yuukiizumi@hotmail.es
+  - karli-chin@hotmail.com
+  on_success: never
+  on_failure: always
 
 
 
