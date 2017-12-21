@@ -3,7 +3,7 @@
      "repository": "https://github.com/EGC-G2-Trabajo-1718/cabina-de-votacion",
      "version": "1.0.0",
      "description": "Este modulo se encarga de la gestión de los votos.",
-     "main": "tests.js",
+     "main": "main/main.js",
      "author": "ignalelop@alum.us.es",
      "license": "GNU GPL3",
      "dependencies": {
@@ -13,6 +13,7 @@
           "lodash": "4.17.4"
      },
      "scripts": {
-          "start": "node src/main.js"
+          "start": "node src/main.js",
+          "test": "node src/tests/main.js"
      }
 }

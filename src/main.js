@@ -30,3 +30,7 @@ server.listen(8080, function() {
     // Avisamos de la activación del servidor.
     console.log("Server "+server.name+" started at URL: "+server.url);
 });
+
+// Para las pruebas, exportamos las funciones de llamada
+exports.canVote = canVote;
+exports.vote = vote;

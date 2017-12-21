@@ -1,5 +1,9 @@
-var auth = require('./authorization.js');
-var encryptor = require('./encryptor.js');
+if(process.env.NODE_ENV=="test") {
+    var auth = require('./tests/authorization');
+} else {
+    var auth = require('./main/authorization');
+}
+var encryptor = require('./encryptor');
 
 function canVote(user_id, election_id) {
     // Obtenemos la elección
