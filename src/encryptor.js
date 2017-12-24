@@ -30,12 +30,7 @@ function encrypt_vote(vote, key) {
         result = result.concat(xor_cipher(block, key));
     });
 
-    // Para terminar, convertimos el string en cadena de números, ya que muchos de los caracteres no serán imprimibles y pueden surgir problemas con esto.
-    var res_converted = new String();
-    for(var i = 0; i < result.length; i++) {
-        res_converted += result.charCodeAt(i).toString(10);
-    }
-    return res_converted;
+    return result;
 }
 
 // Esta función multiplicará por el multiplicador el caracter introducido.
