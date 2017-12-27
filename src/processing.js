@@ -6,12 +6,12 @@ function canVote(user_id, election_id) {
     var election = auth.getElection(user_id, election_id);
     // Comprobamos si está vacia
     if(!election) {
-        return [false, "cant_vote"];
+        return [false, "election_not_found"];
     }
     // Ahora obtenemos el usuario
     var user = auth.getUser(user_id);
     if(!user) {
-        return [false, "cant_vote"];
+        return [false, "user_not_found"];
     }
     // Realizamos las comprobaciones de que pueda votar
     // Primero, comprobamos que la fecha de la votación no ha pasado:
@@ -26,7 +26,7 @@ function canVote(user_id, election_id) {
 
     // Si no está fuera del rango de votación.
     if(!(start_date < actual_date && end_date > actual_date)) {
-        return [false, "cant_vote"];
+        return [false, "election_not_open"];
     }
 
     // Despues hacemos comprobaciones del usuario
@@ -38,7 +38,7 @@ function canVote(user_id, election_id) {
     var election = auth.getDobleCheck(user_id, election_id);
     //Si devuelve true no podra votar de nuevo
     if(election){
-      return [false, "cant_vote"];
+      return [false, "already_voted"];
     }
     // Si todo lo anterior es correcto, podemos admitir al usuario a votar
     return [true, "can_vote"];
