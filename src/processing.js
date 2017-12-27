@@ -51,16 +51,17 @@ function vote(id_user, id_election, answers) {
 	if(canvote[1]=="can_vote"){
 		//Obtenemos la clave con la que vamos a encriptar el voto
 		var key = auth.getAuthority(id_election);
-		// Procedemos a encriptar 
-        var encrypted_answers = encryptor.encrypt_vote(answers,key);
-        // Comprobamos que el envío a almacenamiento es correcto:
-        if(!authorization.saveVote(encrypted_answers, id_election, id_user)) {
-	    // Si no es correcto se mostrará el mensaje de error en el envío
-            return [500, JSON.stringify({"result": false, "reason":"error_sending"})];
-		} else {
-	    // En caso de éxito se enviará el voto 
-            return [200,JSON.stringify({"result":true,"vote":{"id_user":id_user,"id_election":id_election,"encrypted_answers":encrypted_answers}})];
-        } 
+        // Para cada pregunta que tengamos, ciframos su contenido y lo enviamos al módulo de almacenamiento
+        for (var i = 0; i < answers.length; i++) {
+            var encrypted_answers = encryptor.encrypt_vote(answers[i], key);
+            // Comprobamos que el envío a almacenamiento es correcto:
+            if(!authorization.saveVote(encrypted_answers, id_election, id_user, answers[i].question_id)) {
+                // Si no es correcto se mostrará el mensaje de error en el envío
+                return [500, JSON.stringify({"result": false, "reason":"error_sending"})];
+            } // En caso contrario, asumimos que se ha enviado correctamente y continuamos al siguiente
+        }
+        // Una vez terminemos de encriptar y enviar los votos, tendremos que responder con un mensaje correcto
+        return [200, JSON.stringify({ "result": false, "reason": "can_vote" })];º
 	// Tanto si no se muestra la votación como el usuario, en ambos casos se lanzará un código de estado 404 y la razón del mismo
 	}else if(canvote[1]=="election_not_found"){
 		return [404,JSON.stringify({"result":false,"reason":canvote[1]})];
