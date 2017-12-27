@@ -3,7 +3,7 @@ var encryptor = require('./encryptor.js');
 
 function canVote(user_id, election_id) {
     // Obtenemos la elección
-    var election = auth.getElection(user_id, election_id);
+    var election = auth.getElection(election_id);
     // Comprobamos si está vacia
     if(!election) {
         return [false, "election_not_found"];
