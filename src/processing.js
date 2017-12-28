@@ -61,7 +61,7 @@ function vote(id_user, id_election, answers) {
             } // En caso contrario, asumimos que se ha enviado correctamente y continuamos al siguiente
         }
         // Una vez terminemos de encriptar y enviar los votos, tendremos que responder con un mensaje correcto
-        return [200, JSON.stringify({ "result": false, "reason": "can_vote" })];º
+        return [200, JSON.stringify({ "result": false, "reason": "can_vote" })];
 	// Tanto si no se muestra la votación como el usuario, en ambos casos se lanzará un código de estado 404 y la razón del mismo
 	}else if(canvote[1]=="election_not_found"){
 		return [404,JSON.stringify({"result":false,"reason":canvote[1]})];
