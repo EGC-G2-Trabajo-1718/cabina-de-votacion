@@ -3,32 +3,59 @@ var rest = require("rest");
 var urlGrupoAutenticacion= "urlGrupoAutenticacion";
 var urlVotacion = "https://www.reqres.in";
 
+//Admite como usuarios válidos a paco1 y javi1. Si no, devuelve mensaje de error
 function getUser(username){
-	var options = {
-		"method": "GET",
-		"hostname": urlGrupoAutenticacion,
-		"port": 80,
-		"path":	"/api/index.php?method=getUser&user="+username,
-		"json":true
-	};
+	var result;
+	
+	if(username ==="paco1"){
+		//Procedemos a crear el objeto usuario formándolo en una cadena de texto.
+		var resultString = '{'
+			+'"result" : true,'
+			+'"msg" : "Successfull",'
+			+'"username" : "paco1",'
+			+'"name" : "Paco",'
+			+'"surname" : "Castro Botella",'
+			+'"email" : "paco1@gmail.com",'
+			+'"genre" : "Masculino",'
+			+'"autonomous_community" : "Andalucía",'
+			+'"age" : "21",'
+			+'"role" : "ASISTENTE"'
+			+'}';
+		
+		//Pasamos la cadena de texto a objeto JSON
+		result = JSON.parse(resultString);
 
-	var req = http.request(options, function(res) {
-		res.setEncoding('utf-8');
-		var responseString='';
+	}else if(username === "javi1"){
+		//En este caso se realiza de otra forma también válida
+		//Creamos la variable object en la que formaremos el JSON
+		resultObject = new Object();
+		//Le damos valor a los distintos atributos del JSON
+		resultObject.result = true;
+		resultObject.msg = "Succesfull";
+		resultObject.username = "javi1";
+		resultObject.name = "Javi";
+		resultObject.surname = "Gallego Santos";
+		resultObject.email = "javi1@gmail.com";
+		resultObject.genre = "Masculino";
+		resultObject.autonomous_community = "Extremadura";
+		resultObject.age = "32";
+		resultObject.role = "ASISTENTE";
+		
+		//Esto comprueba que efectivamente el objeto se pase a cadena de texto y luego
+		//a un JSON válido
+		var resultString = JSON.stringify(resultObject);
+		result = JSON.parse(resultString);	
+	}else{
+		resultObject = new Object();
 
-		res.on('data', function(data){
-			responseString += data;
-		});
-		res.on('end', function(){
-			console.log(responseString); //Muestra la respuesta por consola
-			var responseObject = JSON.parse(responseString);
-			success(responseObject);
-		});
-	});
+		resultObject.result = false;
+		resultObject.msg = "Error: usuario no encontrado";
+		
+		var resultString = JSON.stringify(resultObject);
+		result = JSON.parse(resultString);	
+	}
 
-	req.write(dataString);
-
-	req.end();
+	return result;
 }
 
 function getElection(election_id){
