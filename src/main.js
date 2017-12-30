@@ -1,6 +1,6 @@
 // Importamos el módulo correspondiente
-const processing = require('./processing.js');
-const restify = require('restify');
+var processing = require('./processing.js');
+var restify = require('restify');
 
 // Definimos el método que recibirá la solicitud del exterior.
 function canVote(request, response, next) {
