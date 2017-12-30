@@ -126,7 +126,7 @@ function getDobleCheck(id_usuario, election_id){
 	//Paso 2- Configuramos la solicitudes
 	var options = {
 		"method": "GET",
-		"url": "https://almacenamiento.nvotesus.es/api/get/comprobar_voto/"+{id_usuario}+"/"+{election_id},
+		"url": "https://almacenamiento.nvotesus.es/api/get/comprobar_voto/"+id_usuario+"/"+election_id,
 		"port": 80,
 		"json": true
 	}
