@@ -3,7 +3,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     clean: {
         build: ['bundle.js']
-    }
+    },
     uglify: {
         options: {
             sourceMap: true
