@@ -13,6 +13,11 @@ install:
 script:
   - npm test
 
+# Si se ha probado de forma correcta el test, se ejecutará la construcción del archivo 'bundle.js'.
+after_success:
+  - grunt clean
+  - grunt uglify
+
 notifications:
  email:
   recipients:
@@ -23,15 +28,3 @@ notifications:
   - karli-chin@hotmail.com
   on_success: never
   on_failure: always
-
-# Esta sección se encarga de gestionar la automatización del despliegue
-
-before_deploy:
-  - grunt clean
-  - grunt uglify
-deploy:
-  provider: releases
-  file: "bundle.js"
-  skip_cleanup: true
-  on:
-    tags: true
