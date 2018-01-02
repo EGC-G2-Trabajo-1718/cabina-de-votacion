@@ -19,7 +19,8 @@ function getUser(username){
 			+'"genre" : "Masculino",'
 			+'"autonomous_community" : "Andalucía",'
 			+'"age" : "21",'
-			+'"role" : "ASISTENTE"'
+			+'"role" : "ASISTENTE",'
+			+'"id_grupo" : "31"'
 			+'}';
 		
 		//Pasamos la cadena de texto a objeto JSON
@@ -40,50 +41,38 @@ function getUser(username){
 		resultObject.autonomous_community = "Extremadura";
 		resultObject.age = "32";
 		resultObject.role = "ASISTENTE";
+		resultObject.id_grupo = 40;
 		
 		//Esto comprueba que efectivamente el objeto se pase a cadena de texto y luego
 		//a un JSON válido
 		var resultString = JSON.stringify(resultObject);
 		result = JSON.parse(resultString);	
-	}else{
-		resultObject = new Object();
-
-		resultObject.result = false;
-		resultObject.msg = "Error: usuario no encontrado";
-		
-		var resultString = JSON.stringify(resultObject);
-		result = JSON.parse(resultString);	
-	}
+	}//Si no cumple con ningun username de los anteriores, se devuelve null
 
 	return result;
 }
 
 function getElection(election_id){
-	var options = {
-		"method": "GET",
-		"hostname": urlVotacion,
-		"port": 80,
-		"path":"/api/get/votacion.json?id="+election_id,
-		"json":true
-	};
+	var result;	
 
-	var req = http.request(options, function(res) {
-		res.setEncoding('utf-8');
-		var responseString='';
-
-		res.on('data', function(data){
-			responseString += data;
-		});
-		res.on('end', function(){
-			console.log(responseString); //Muestra la respuesta por consola
-			var responseObject = JSON.parse(responseString);
-			success(responseObject);
-		});
-	});
-
-	req.write(dataString);
-
-	req.end();
+	if(election_id==="001"){
+		//Procedemos a crear la elección en formato JSON
+		var resultString = '{'
+			+'"votacion": {'
+			+'"id": "1",'
+			+'"id_censo": "288",'
+			+'"id_grupo"; "31",'
+			+'"titulo": "Votacion 1 prueba",'
+			+'"descripción": "Esta es una votacion de prueba",'
+			+'"fecha_ini": "31/07/2017 07:07",'
+			+'"fecha_fin": "31/08/2018 07:07",'
+			+'"id_preguntas": "[2,3]"'
+			+'}'
+			+'}';
+		result = JSON.parse(resultString);
+	}//Si no cumple con ninguna id de las anteriores, se devuelve null
+	
+	return result;
 
 }
 
