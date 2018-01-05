@@ -59,7 +59,7 @@ function getElection(election_id){
 		//Procedemos a crear la elección en formato JSON
 		var resultString = '{'
 			+'"votacion": {'
-			+'"id": "1",'
+			+'"id": "001",'
 			+'"id_censo": "288",'
 			+'"id_grupo"; "31",'
 			+'"titulo": "Votacion 1 prueba",'
@@ -70,6 +70,21 @@ function getElection(election_id){
 			+'}'
 			+'}';
 		result = JSON.parse(resultString);
+	}else if(election_id==="002"){
+		var resultString = '{'
+			+'"votacion": {'
+			+'"id": "002",'
+			+'"id_censo": "255",'
+			+'"id_grupo"; "32",'
+			+'"titulo": "Votacion 2 prueba",'
+			+'"descripción": "Esta es otra votacion de prueba",'
+			+'"fecha_ini": "31/07/2017 07:07",'
+			+'"fecha_fin": "31/08/2018 07:07",'
+			+'"id_preguntas": "[1,4]"'
+			+'}'
+			+'}';
+		result = JSON.parse(resultString);
+
 	}//Si no cumple con ninguna id de las anteriores, se devuelve null
 	
 	return result;
