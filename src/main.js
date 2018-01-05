@@ -6,7 +6,7 @@ const restify = require('restify');
 function canVote(request, response, next) {
     // Este método se encargará de recibir los datos de las solicitudes a votar.
     var voting_form = processing.canVote(request.params.user, request.params.election);
-    response.send({ "return": voting_form[0], "reason": voting_form[1]});    
+    response.send({ "result": voting_form[0], "reason": voting_form[1]});    
 }
 
 // Definimos el método de votación
