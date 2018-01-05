@@ -3,60 +3,91 @@ var rest = require("rest");
 var urlGrupoAutenticacion= "urlGrupoAutenticacion";
 var urlVotacion = "https://www.reqres.in";
 
+//Admite como usuarios válidos a paco1 y javi1. Si no, devuelve mensaje de error
 function getUser(username){
-	var options = {
-		"method": "GET",
-		"hostname": urlGrupoAutenticacion,
-		"port": 80,
-		"path":	"/api/index.php?method=getUser&user="+username,
-		"json":true
-	};
+	var result;
+	
+	if(username ==="paco1"){
+		//Procedemos a crear el objeto usuario formándolo en una cadena de texto.
+		var resultString = '{'
+			+'"result" : true,'
+			+'"msg" : "Successfull",'
+			+'"username" : "paco1",'
+			+'"name" : "Paco",'
+			+'"surname" : "Castro Botella",'
+			+'"email" : "paco1@gmail.com",'
+			+'"genre" : "Masculino",'
+			+'"autonomous_community" : "Andalucía",'
+			+'"age" : "21",'
+			+'"role" : "ASISTENTE",'
+			+'"id_grupo" : "31"'
+			+'}';
+		
+		//Pasamos la cadena de texto a objeto JSON
+		result = JSON.parse(resultString);
 
-	var req = http.request(options, function(res) {
-		res.setEncoding('utf-8');
-		var responseString='';
+	}else if(username === "javi1"){
+		//En este caso se realiza de otra forma también válida
+		//Creamos la variable object en la que formaremos el JSON
+		resultObject = new Object();
+		//Le damos valor a los distintos atributos del JSON
+		resultObject.result = true;
+		resultObject.msg = "Succesfull";
+		resultObject.username = "javi1";
+		resultObject.name = "Javi";
+		resultObject.surname = "Gallego Santos";
+		resultObject.email = "javi1@gmail.com";
+		resultObject.genre = "Masculino";
+		resultObject.autonomous_community = "Extremadura";
+		resultObject.age = "32";
+		resultObject.role = "ASISTENTE";
+		resultObject.id_grupo = 40;
+		
+		//Esto comprueba que efectivamente el objeto se pase a cadena de texto y luego
+		//a un JSON válido
+		var resultString = JSON.stringify(resultObject);
+		result = JSON.parse(resultString);	
+	}//Si no cumple con ningun username de los anteriores, se devuelve null
 
-		res.on('data', function(data){
-			responseString += data;
-		});
-		res.on('end', function(){
-			console.log(responseString); //Muestra la respuesta por consola
-			var responseObject = JSON.parse(responseString);
-			success(responseObject);
-		});
-	});
-
-	req.write(dataString);
-
-	req.end();
+	return result;
 }
 
 function getElection(election_id){
-	var options = {
-		"method": "GET",
-		"hostname": urlVotacion,
-		"port": 80,
-		"path":"/api/get/votacion.json?id="+election_id,
-		"json":true
-	};
+	var result;	
 
-	var req = http.request(options, function(res) {
-		res.setEncoding('utf-8');
-		var responseString='';
+	if(election_id==="001"){
+		//Procedemos a crear la elección en formato JSON
+		var resultString = '{'
+			+'"votacion": {'
+			+'"id": "001",'
+			+'"id_censo": "288",'
+			+'"id_grupo"; "31",'
+			+'"titulo": "Votacion 1 prueba",'
+			+'"descripción": "Esta es una votacion de prueba",'
+			+'"fecha_ini": "31/07/2017 07:07",'
+			+'"fecha_fin": "31/08/2018 07:07",'
+			+'"id_preguntas": "[2,3]"'
+			+'}'
+			+'}';
+		result = JSON.parse(resultString);
+	}else if(election_id==="002"){
+		var resultString = '{'
+			+'"votacion": {'
+			+'"id": "002",'
+			+'"id_censo": "255",'
+			+'"id_grupo"; "32",'
+			+'"titulo": "Votacion 2 prueba",'
+			+'"descripción": "Esta es otra votacion de prueba",'
+			+'"fecha_ini": "31/07/2017 07:07",'
+			+'"fecha_fin": "31/08/2018 07:07",'
+			+'"id_preguntas": "[1,4]"'
+			+'}'
+			+'}';
+		result = JSON.parse(resultString);
 
-		res.on('data', function(data){
-			responseString += data;
-		});
-		res.on('end', function(){
-			console.log(responseString); //Muestra la respuesta por consola
-			var responseObject = JSON.parse(responseString);
-			success(responseObject);
-		});
-	});
-
-	req.write(dataString);
-
-	req.end();
+	}//Si no cumple con ninguna id de las anteriores, se devuelve null
+	
+	return result;
 
 }
 
