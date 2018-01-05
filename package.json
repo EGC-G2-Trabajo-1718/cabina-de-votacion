@@ -9,10 +9,13 @@
      "dependencies": {
           "rest": "2.0.0",
           "restify": "6.3.4",
+          "restify-clients": "1.5.2",
           "async": "2.6.0",
           "lodash": "4.17.4"
      },
      "scripts": {
+          "pretest": "npm install",
+          "prestart": "npm install",
           "start": "node src/main.js",
           "test": "NODE_ENV=test node src/tests/main.js"
      }
