@@ -9,24 +9,17 @@ var client = clients.createJsonClient({
 	version: '*'
 });
 //Tests de canVote
-client.get('/api/check/vote.json?user_id=paco1&election_id=001', (err,req,res,obj) => {
-	if(err) console.error(err.stack);
-	else console.log('Checked the vote '+JSON.stringify(obj,null,2));
-	count = count +1;
-});
+console.log(processing.canVote(1, 1));
 
-client.get('/api/check/vote.json?user_id=javi1&election_id=001', (err,req,res,obj) => {
-	if(err) console.error(err.stack);
-	else console.log('Checked the vote '+JSON.stringify(obj,null,2));
-	count = count +1;
+// Prueba del sistema
+client.get('/api/check/vote.json?user=1&election=1', (err, req, res, obj) => {
+    if(err){
+        console.error(err.stack);
+    } else {
+        console.log("Checked vote with user 1 and election 1");
+        count++;
+    }
 });
-
-client.get('/api/check/vote.json?user_id=javi1&election_id=002', (err,req,res,obj) => {
-	if(err) console.error(err.stack);
-	else console.log('Checked the vote '+JSON.stringify(obj,null,2));
-	count = count +1;
-});
-
 
 //Tests de vote
 client.post('/api/create/vote.json', {

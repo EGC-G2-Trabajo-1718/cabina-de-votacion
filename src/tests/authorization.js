@@ -7,29 +7,31 @@ var urlVotacion = "https://www.reqres.in";
 function getUser(username){
 	var result;
 	
-	if(username ==="paco1"){
+	if(username == "1"){
 		//Procedemos a crear el objeto usuario formándolo en una cadena de texto.
-		var resultString = '{'
-			+'"result" : true,'
-			+'"msg" : "Successfull",'
-			+'"username" : "paco1",'
-			+'"name" : "Paco",'
-			+'"surname" : "Castro Botella",'
-			+'"email" : "paco1@gmail.com",'
-			+'"genre" : "Masculino",'
-			+'"autonomous_community" : "Andalucía",'
-			+'"age" : "21",'
-			+'"role" : "ASISTENTE",'
-			+'"id_grupo" : "31"'
-			+'}';
+		var resultString = {
+			result: true,
+			msg: "Successfull",
+			username: "paco1",
+			name: "Paco",
+			surname: "Castro Botella",
+			email: "paco1@gmail.com",
+			genre: "Masculino",
+			autonomous_community: "Andalucía",
+			age: 21,
+			role: "ASISTENTE",
+			id_grupo: 31
+		};
 		
 		//Pasamos la cadena de texto a objeto JSON
-		result = JSON.parse(resultString);
+		result = resultString;
 
-	}else if(username === "javi1"){
+	}else if(username == "1"){
 		//En este caso se realiza de otra forma también válida
 		//Creamos la variable object en la que formaremos el JSON
-		resultObject = new Object();
+		resultObject = {
+
+        }
 		//Le damos valor a los distintos atributos del JSON
 		resultObject.result = true;
 		resultObject.msg = "Succesfull";
@@ -45,8 +47,7 @@ function getUser(username){
 		
 		//Esto comprueba que efectivamente el objeto se pase a cadena de texto y luego
 		//a un JSON válido
-		var resultString = JSON.stringify(resultObject);
-		result = JSON.parse(resultString);	
+		result = resultString;
 	}//Si no cumple con ningun username de los anteriores, se devuelve null
 
 	return result;
@@ -55,35 +56,35 @@ function getUser(username){
 function getElection(election_id){
 	var result;	
 
-	if(election_id==="001"){
+	if(election_id == "1"){
 		//Procedemos a crear la elección en formato JSON
-		var resultString = '{'
-			+'"votacion": {'
-			+'"id": "001",'
-			+'"id_censo": "288",'
-			+'"id_grupo"; "31",'
-			+'"titulo": "Votacion 1 prueba",'
-			+'"descripción": "Esta es una votacion de prueba",'
-			+'"fecha_ini": "31/07/2017 07:07",'
-			+'"fecha_fin": "31/08/2018 07:07",'
-			+'"id_preguntas": "[2,3]"'
-			+'}'
-			+'}';
-		result = JSON.parse(resultString);
-	}else if(election_id==="002"){
-		var resultString = '{'
-			+'"votacion": {'
-			+'"id": "002",'
-			+'"id_censo": "255",'
-			+'"id_grupo"; "32",'
-			+'"titulo": "Votacion 2 prueba",'
-			+'"descripción": "Esta es otra votacion de prueba",'
-			+'"fecha_ini": "31/07/2017 07:07",'
-			+'"fecha_fin": "31/08/2018 07:07",'
-			+'"id_preguntas": "[1,4]"'
-			+'}'
-			+'}';
-		result = JSON.parse(resultString);
+        var resultString = {
+            votacion: {
+                id: 1,
+                id_censo: 288,
+                id_grupo: 31,
+                titulo: "Votacion 1 prueba",
+                descripción: "Esta es una votacion de prueba",
+                fecha_ini: "31/07/2017 07:07",
+                fecha_fin: "31/08/2018 07:07",
+                id_preguntas: [2,3]
+            }
+		};
+		result = resultString;
+	}else if(election_id == "2"){
+        var resultString = {
+            votacion: {
+                id: 2,
+                id_censo: 255,
+                id_grupo: 32,
+                titulo: "Votacion 2 prueba",
+                descripción: "Esta es otra votacion de prueba",
+                fecha_ini: "31/07/2017 07:07",
+                fecha_fin: "31/08/2018 07:07",
+                id_preguntas: [1, 4]
+            }
+        }
+		result = resultString;
 
 	}//Si no cumple con ninguna id de las anteriores, se devuelve null
 	
@@ -151,25 +152,8 @@ function getAnswers(question_id){
 
 //Metodo para comprobar doble votacion
 function getDobleCheck(id_usuario, election_id){
-	//Paso 1- Establecemos el encabezado
-	var request = require('request');
-
-	//Paso 2- Configuramos la solicitudes
-	var options = {
-		"method": "GET",
-		"url": "https://almacenamiento.nvotesus.es/api/get/comprobar_voto/"+{id_usuario}+"/"+{election_id},
-		"port": 80,
-		"json": true
-	}
-
-	//Paso 3-Comprobamos si ya ha habido una votacion o no
-	var compr=false;
-	request(options, function (error, response, body) {
-		if (!error && response.statusCode == 200) {
-			compr=true;
-		}
-	});
-	return compr;
+    // Método de prueba, asumimos que nunca vota doble
+    return false;
 }
 
 //Implementación de la obtención de las autoridades para el cifrado
