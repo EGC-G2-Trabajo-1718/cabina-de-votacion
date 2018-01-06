@@ -1,6 +1,6 @@
 // Importamos el módulo correspondiente
-const processing = require('./processing.js');
-const restify = require('restify');
+var processing = require('./processing.js');
+var restify = require('restify');
 
 // Definimos el método que recibirá la solicitud del exterior.
 function canVote(request, response, next) {
@@ -26,7 +26,7 @@ server.post('/api/create/vote.json', vote);
 
 // Finalmente, ejecutamos el servidor:
 // En principio usaremos el puerto 80.
-server.listen(8080, function() {
+server.listen(80, function() {
     // Avisamos de la activación del servidor.
     console.log("Server "+server.name+" started at URL: "+server.url);
 });

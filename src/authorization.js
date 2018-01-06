@@ -126,7 +126,7 @@ function getDobleCheck(id_usuario, election_id){
 	//Paso 2- Configuramos la solicitudes
 	var options = {
 		"method": "GET",
-		"url": "https://almacenamiento.nvotesus.es/api/get/comprobar_voto/"+{id_usuario}+"/"+{election_id},
+		"url": "https://almacenamiento.nvotesus.es/api/get/comprobar_voto/"+id_usuario+"/"+election_id,
 		"port": 80,
 		"json": true
 	}
@@ -156,10 +156,10 @@ function getAuthority(id){
 }
 
 // Este método se encargará de realizar el guardado del voto, enviándolo a almacenamiento de votos.
-function saveVote(ciphered_vote, election_id, user_id) {
+function saveVote(ciphered_vote, election_id, user_id, question_id) {
 	result = true; // Declaramos la variable global, que será modificada por la función de abajo.
 	// Por ahora asumimos que el almacenamiento es por elección y usuario, no por pregunta
-	rest("https://almacenamiento.nvotesus.es/api/post/almacenar_voto/"+user_id+"/"+election_id)
+	rest("https://almacenamiento.nvotesus.es/api/post/almacenar_voto/"+user_id+"/"+election_id+"/"+question_id)
 	  .then(function (response) {
 		// Comprobamos que la respuesta es correcta (200)
 		if(response.status.code != 200) {

@@ -3,15 +3,16 @@ var encryptor = require('./encryptor.js');
 
 function canVote(user_id, election_id) {
     // Obtenemos la elección
-    var election = auth.getElection(user_id, election_id);
+    var election = auth.getElection(user_id);
+    election = election.votacion;
     // Comprobamos si está vacia
     if(!election) {
-        return [false, "cant_vote"];
+        return [false, "election_not_found"];
     }
     // Ahora obtenemos el usuario
     var user = auth.getUser(user_id);
     if(!user) {
-        return [false, "cant_vote"];
+        return [false, "user_not_found"];
     }
     // Realizamos las comprobaciones de que pueda votar
     // Primero, comprobamos que la fecha de la votación no ha pasado:
@@ -26,7 +27,7 @@ function canVote(user_id, election_id) {
 
     // Si no está fuera del rango de votación.
     if(!(start_date < actual_date && end_date > actual_date)) {
-        return [false, "cant_vote"];
+        return [false, "election_not_open"];
     }
 
     // Despues hacemos comprobaciones del usuario
@@ -35,10 +36,10 @@ function canVote(user_id, election_id) {
         return [false, "cant_vote"];
     }
 
-    var election = auth.getDobleCheck(user_id, election_id);
+    var check = auth.getDobleCheck(user_id, election_id);
     //Si devuelve true no podra votar de nuevo
     if(election){
-      return [false, "cant_vote"];
+      return [false, "already_voted"];
     }
     // Si todo lo anterior es correcto, podemos admitir al usuario a votar
     return [true, "can_vote"];
@@ -51,16 +52,17 @@ function vote(id_user, id_election, answers) {
 	if(canvote[1]=="can_vote"){
 		//Obtenemos la clave con la que vamos a encriptar el voto
 		var key = auth.getAuthority(id_election);
-		// Procedemos a encriptar 
-        var encrypted_answers = encryptor.encrypt_vote(answers,key);
-        // Comprobamos que el envío a almacenamiento es correcto:
-        if(!authorization.saveVote(encrypted_answers, id_election, id_user)) {
-	    // Si no es correcto se mostrará el mensaje de error en el envío
-            return [500, JSON.stringify({"result": false, "reason":"error_sending"})];
-		} else {
-	    // En caso de éxito se enviará el voto 
-            return [200,JSON.stringify({"result":true,"vote":{"id_user":id_user,"id_election":id_election,"encrypted_answers":encrypted_answers}})];
-        } 
+        // Para cada pregunta que tengamos, ciframos su contenido y lo enviamos al módulo de almacenamiento
+        for (var i = 0; i < answers.length; i++) {
+            var encrypted_answers = encryptor.encrypt_vote(answers[i], key);
+            // Comprobamos que el envío a almacenamiento es correcto:
+            if(!authorization.saveVote(encrypted_answers, id_election, id_user, answers[i].question_id)) {
+                // Si no es correcto se mostrará el mensaje de error en el envío
+                return [500, JSON.stringify({"result": false, "reason":"error_sending"})];
+            } // En caso contrario, asumimos que se ha enviado correctamente y continuamos al siguiente
+        }
+        // Una vez terminemos de encriptar y enviar los votos, tendremos que responder con un mensaje correcto
+        return [200, JSON.stringify({ "result": false, "reason": "can_vote" })];
 	// Tanto si no se muestra la votación como el usuario, en ambos casos se lanzará un código de estado 404 y la razón del mismo
 	}else if(canvote[1]=="election_not_found"){
 		return [404,JSON.stringify({"result":false,"reason":canvote[1]})];
