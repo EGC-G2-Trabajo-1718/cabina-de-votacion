@@ -3,7 +3,8 @@ var encryptor = require('./encryptor.js');
 
 function canVote(user_id, election_id) {
     // Obtenemos la elección
-    var election = auth.getElection(user_id, election_id);
+    var election = auth.getElection(user_id);
+    election = election.votacion;
     // Comprobamos si está vacia
     if(!election) {
         return [false, "election_not_found"];
@@ -35,7 +36,7 @@ function canVote(user_id, election_id) {
         return [false, "cant_vote"];
     }
 
-    var election = auth.getDobleCheck(user_id, election_id);
+    var check = auth.getDobleCheck(user_id, election_id);
     //Si devuelve true no podra votar de nuevo
     if(election){
       return [false, "already_voted"];
