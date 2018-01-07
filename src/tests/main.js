@@ -9,6 +9,25 @@ var client = clients.createJsonClient({
 	version: '*'
 });
 //Tests de canVote
+console.log("Tests de la funcion canVote");
+console.log("===========================");
+
+console.log("Test positivo");
+console.log(processing.canVote(1, 1));
+
+console.log("Test elección no existente");
+console.log(processing.canVote(1, 0));
+
+console.log("Test usuario no existente");
+console.log(processing.canVote(0, 1));
+
+console.log("Test fecha de elección expirada");
+console.log(processing.canVote(1, 3));
+
+console.log("Test elección no perteneciente al grupo del usuario");
+console.log(processing.canVote(1, 2));
+
+console.log("Test el usuario no ha votado ya en dicha elección");
 console.log(processing.canVote(1, 1));
 
 // Prueba del sistema

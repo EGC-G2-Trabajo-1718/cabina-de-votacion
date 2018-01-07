@@ -26,7 +26,7 @@ function getUser(username){
 		//Pasamos la cadena de texto a objeto JSON
 		result = resultString;
 
-	}else if(username == "1"){
+	}else if(username == "2"){
 		//En este caso se realiza de otra forma también válida
 		//Creamos la variable object en la que formaremos el JSON
 		resultObject = {
@@ -72,18 +72,33 @@ function getElection(election_id){
 		};
 		result = resultString;
 	}else if(election_id == "2"){
-        var resultString = {
-            votacion: {
-                id: 2,
-                id_censo: 255,
-                id_grupo: 32,
-                titulo: "Votacion 2 prueba",
-                descripción: "Esta es otra votacion de prueba",
-                fecha_ini: "31/07/2017 07:07",
-                fecha_fin: "31/08/2018 07:07",
-                id_preguntas: [1, 4]
-            }
-        }
+        	var resultString = {
+           	 votacion: {
+             	   id: 2,
+              	  id_censo: 255,
+              	  id_grupo: 32,
+              	  titulo: "Votacion 2 prueba",
+               	 descripción: "Esta es otra votacion de prueba",
+               	 fecha_ini: "31/07/2017 07:07",
+               	 fecha_fin: "31/08/2018 07:07",
+               	 id_preguntas: [1, 4]
+           	 }
+        	}
+		result = resultString;
+
+	}else if(election_id == "3"){
+        	var resultString = {
+           	 votacion: {
+             	   id: 3,
+              	  id_censo: 255,
+              	  id_grupo: 31,
+              	  titulo: "Votacion 3 prueba",
+               	 descripción: "Esta es otra votacion de prueba, con fecha expirada",
+               	 fecha_ini: "31/07/2017 07:07",
+               	 fecha_fin: "31/08/2017 07:07",
+               	 id_preguntas: [1, 4]
+           	 }
+        	}
 		result = resultString;
 
 	}//Si no cumple con ninguna id de las anteriores, se devuelve null
