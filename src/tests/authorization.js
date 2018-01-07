@@ -108,6 +108,52 @@ function getElection(election_id){
 }
 
 function getQuestions(election_id){
+	var result;
+
+	if(election_id == "1"){
+		var resultString = {
+			id: 1,
+			id_votacion: 1,
+			texto_pregunta: "prueba 1 - pregunta 1",
+			tipo_pregunta: "abierta",
+			id_dependencia: null			
+		}
+		result = resultString;
+	} else if(election_id == "2"){
+		var resultString = {
+			id: 2,
+			id_votacion: 2,
+			texto_pregunta: "prueba 2 - pregunta 1",
+			tipo_pregunta: "cerrada",
+			id_dependencia: null
+		}
+		result = resultString;
+	}
+	return result;
+}
+
+function getAnswers(question_id){
+	var result;
+	
+	if(question_id == "1"){
+		var resultString = {
+			id: 1,
+			id_pregunta: 1,
+			texto_respuesta: "prueba 1 - respuesta 1"
+		}
+		result = resultString;
+	} else if(question_id == "2"){
+		var resultString = {
+			id: 2,
+			id_pregunta: 2,
+			texto_respuesta: "prueba 2 - respuesta 1"
+		}
+	}
+}
+
+
+
+function getQuestions(election_id){
 	var options = {
 		"method": "GET",
 		"hostname": url,
