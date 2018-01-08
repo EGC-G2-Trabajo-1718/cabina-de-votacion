@@ -31,8 +31,10 @@ function canVote(user_id, election_id) {
     }
 
     // Despues hacemos comprobaciones del usuario
-    // Si el usuario no está en el grupo que puede votar:
-    if(user.id_grupo != election.id_grupo) {
+    // Se realizará una llamada al módulo de administración de censos para ver si el usuario está en el censo
+    var result = authorization.checkUserCensus(user.username, election_id);
+    // En el caso de que no pertenezca al censo
+    if(!result) {
         return [false, "cant_vote"];
     }
 

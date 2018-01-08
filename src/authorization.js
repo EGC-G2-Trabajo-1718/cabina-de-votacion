@@ -3,6 +3,9 @@ var rest = require("rest");
 var urlGrupoAutenticacion= "urlGrupoAutenticacion";
 var urlVotacion = "https://www.reqres.in";
 
+// Se usará la IP de despliegue del módulo de administración de censos
+const URL_CENSUS_GROUP = "http://172.18.2.30 "
+
 function getUser(username){
 	var options = {
 		"method": "GET",
@@ -171,6 +174,22 @@ function saveVote(ciphered_vote, election_id, user_id, question_id) {
 	return result;
 }
 
+// Este método realizará una llamada a la API de censos para comprobar que el usuario está dentro del censo de la votación
+function checkUserCensus(username, election_id) {
+    // Definimos el resultado, en principio negativo
+    var result = false;
+    // Realizamos la llamada a la API
+    rest(URL_CENSUS_GROUP+"/can_vote?id_votacion="+election_id+"&username="+username)
+      .then(response => {
+        // Comprobamos que el resultado contenga como cuerpo del texto la respuesta
+        if(response.body && response.body.result) {
+            result = response.body.result;
+        }
+    })
+    // Finalmente, retornamos el valor
+    return result;
+}
+
 exports.getUser = getUser;
 exports.getElection = getElection;
 exports.getQuestions = getQuestions;
@@ -178,3 +197,4 @@ exports.getAnswers = getAnswers;
 exports.getDobleCheck = getDobleCheck;
 exports.getAuthority = getAuthority;
 exports.saveVote = saveVote;
+exports.checkUserCensus = checkUserCensus;
