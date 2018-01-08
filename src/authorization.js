@@ -4,7 +4,7 @@ var urlGrupoAutenticacion= "urlGrupoAutenticacion";
 var urlVotacion = "https://www.reqres.in";
 
 // Se usará la IP de despliegue del módulo de administración de censos
-const URL_CENSUS_GROUP = "http://172.18.2.30 "
+const URL_CENSUS_GROUP = "http://172.18.2.30"
 
 function getUser(username){
 	var options = {
