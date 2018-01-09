@@ -1,193 +1,119 @@
-var http = require("http");
-var rest = require("rest");
-var urlGrupoAutenticacion= "urlGrupoAutenticacion";
-var urlVotacion = "https://www.reqres.in";
+var Promise = require("bluebird");
+var request = require('request');
 
-// Se usará la IP de despliegue del módulo de administración de censos
-const URL_CENSUS_GROUP = "http://172.18.2.30"
+// Se definen las URLs de los módulos como constantes
+const urlCenso = "http://172.18.2.30"
+const urlAutenticacion= "http://172.18.2.20";
+const urlVotacion = "http://172.18.2.40";
+const urlAlmacenamiento = "http://172.18.2.50";
 
+// La mayoría de las siguientes peticiones a los diferentes módulos son parecidas, se va a detallar el contenido de la siguiente como ejemplo
+// El método siguiente se encarga de obtener el usuario dado su id de usuario
 function getUser(username){
-	var options = {
-		"method": "GET",
-		"hostname": urlGrupoAutenticacion,
-		"port": 80,
-		"path":	"/api/index.php?method=getUser&user="+username,
-		"json":true
-	};
-
-	var req = http.request(options, function(res) {
-		res.setEncoding('utf-8');
-		var responseString='';
-
-		res.on('data', function(data){
-			responseString += data;
-		});
-		res.on('end', function(){
-			console.log(responseString); //Muestra la respuesta por consola
-			var responseObject = JSON.parse(responseString);
-			success(responseObject);
-		});
-	});
-
-	req.write(dataString);
-
-	req.end();
+    // Creamos una Promise donde se retornará o bien el mensaje correcto o un error
+    return new Promise((accept, reject) => {
+        // Se realiza la llamada a la API del otro grupo y el callback será interpretado como Promise
+        request({ url: urlAutenticacion+"/api/index.php?method=getUser&user="+username, json: true }, (err, res, obj) => {
+            // Si la respuesta es erronea
+            if(err) {
+                // Se enviará la información
+                return reject(err);
+            } else {
+                // En caso contrario, enviamos el objeto JSON resultante
+                return accept(obj);
+            }
+        })
+    });
 }
 
+// El método siguiente encuentra la elección dado su id
 function getElection(election_id){
-	var options = {
-		"method": "GET",
-		"hostname": urlVotacion,
-		"port": 80,
-		"path":"/api/get/votacion.json?id="+election_id,
-		"json":true
-	};
-
-	var req = http.request(options, function(res) {
-		res.setEncoding('utf-8');
-		var responseString='';
-
-		res.on('data', function(data){
-			responseString += data;
-		});
-		res.on('end', function(){
-			console.log(responseString); //Muestra la respuesta por consola
-			var responseObject = JSON.parse(responseString);
-			success(responseObject);
-		});
-	});
-
-	req.write(dataString);
-
-	req.end();
-
+    return new Promise((accept, reject) => {
+        return request({ url: urlVotacion+"/api/get/votacion.json?id="+election_id, json:true }, (err, res, obj) => {
+            if(err) {
+                return reject(err);
+            } else {
+                return accept(obj.votacion);
+            }
+        })
+    });
 }
 
 function getQuestions(election_id){
-	var options = {
-		"method": "GET",
-		"hostname": url,
-		"port": 80,
-		"path":	"/api/get/preguntas.json?id="+election_id,
-		"json":true
-	};
-
-	var req = http.request(options, function(res) {
-		res.setEncoding('utf-8');
-		var responseString='';
-
-		res.on('data', function(data){
-			responseString += data;
-		});
-		res.on('end', function(){
-			console.log(responseString); //Muestra la respuesta por consola
-			var responseObject = JSON.parse(responseString);
-			success(responseObject);
-		});
-	});
-
-	req.write(dataString);
-
-	req.end();
-
+    return new Promise((accept, reject) => {
+        return request({ url: urlVotacion+"/api/get/preguntas.json?id="+election_id, json:true }, (err, res, obj) => {
+            if(err) {
+                return reject(err);
+            } else {
+                return accept(obj);
+            }
+        })
+    });
 }
 
+// Este método encontrará las preguntas de la votación
 function getAnswers(question_id){
-	var options = {
-		"method": "GET",
-		"hostname": url,
-		"port": 80,
-		"path":	"/api/get/respuestas.json?id="+question_id,
-		"json":true
-	};
-
-	var req = http.request(options, function(res) {
-		res.setEncoding('utf-8');
-		var responseString='';
-
-		res.on('data', function(data){
-			responseString += data;
-		});
-		res.on('end', function(){
-			console.log(responseString); //Muestra la respuesta por consola
-			var responseObject = JSON.parse(responseString);
-			success(responseObject);
-		});
-	});
-
-	req.write(dataString);
-
-	req.end();
-
+    return new Promise((accept, reject) => {
+        return request({ url: urlVotacion+"/api/get/respuestas.json?id="+question_id, json:true }, (err, res, obj) => {
+            if(err) {
+                return reject(err);
+            } else {
+                return accept(obj);
+            }
+        })
+    });
 }
 
-//Metodo para comprobar doble votacion
+// Metodo para comprobar doble votacion
 function getDobleCheck(id_usuario, election_id){
-	//Paso 1- Establecemos el encabezado
-	var request = require('request');
-
-	//Paso 2- Configuramos la solicitudes
-	var options = {
-		"method": "GET",
-		"url": "https://almacenamiento.nvotesus.es/api/get/comprobar_voto/"+id_usuario+"/"+election_id,
-		"port": 80,
-		"json": true
-	}
-
-	//Paso 3-Comprobamos si ya ha habido una votacion o no
-	var compr=false;
-	request(options, function (error, response, body) {
-		if (!error && response.statusCode == 200) {
-			compr=true;
-		}
-	});
-	return compr;
+    return new Promise((accept, reject) => {
+        return request({ url: urlAlmacenamiento+"/api/get/comprobar_voto/"+id_usuario+"/"+election_id, json:true }, (err, res, obj) => {
+            if(err) {
+                return reject(err);
+            } else {
+                return accept(obj);
+            }
+        })
+    });
 }
 
 //Implementación de la obtención de las autoridades para el cifrado
 function getAuthority(id){
-	//Obtenemos la peticion
-	var requestURL = 'http://egc-votacion1718.es/api/get/votacion.json?id='+id;
-	var request = new XMLHttpRequest();
-	request.open('GET', requestURL);
-	request.responseType = 'json';
-	request.send();
-
-  	var authority = request.response;
-	//Devolvemos la clave
-	return authority.clave;
+    return new Promise((accept, reject) => {
+        return request({ url: urlVotacion+"/api/get/votacion.json?id="+id, json:true }, (err, res, obj) => {
+            if(err) {
+                return reject(err);
+            } else {
+                return accept(obj);
+            }
+        })
+    });
 }
 
 // Este método se encargará de realizar el guardado del voto, enviándolo a almacenamiento de votos.
 function saveVote(ciphered_vote, election_id, user_id, question_id) {
-	result = true; // Declaramos la variable global, que será modificada por la función de abajo.
-	// Por ahora asumimos que el almacenamiento es por elección y usuario, no por pregunta
-	rest("https://almacenamiento.nvotesus.es/api/post/almacenar_voto/"+user_id+"/"+election_id+"/"+question_id)
-	  .then(function (response) {
-		// Comprobamos que la respuesta es correcta (200)
-		if(response.status.code != 200) {
-			// Avisamos de un error de envío o otro error.
-			result = false;
-		}
-	});
-
-	return result;
+    return new Promise((accept, reject) => {
+        return request.post({ url: urlAlmacenamiento+"/api/post/almacenar_voto/"+user_id+"/"+election_id+"/"+question_id, json:true }, (err, res, obj) => {
+            if(err) {
+                return reject(err);
+            } else {
+                return accept(obj);
+            }
+        })
+    });
 }
 
 // Este método realizará una llamada a la API de censos para comprobar que el usuario está dentro del censo de la votación
 function checkUserCensus(username, election_id) {
-    // Definimos el resultado, en principio negativo
-    var result = false;
-    // Realizamos la llamada a la API
-    rest(URL_CENSUS_GROUP+"/can_vote?id_votacion="+election_id+"&username="+username)
-      .then(response => {
-        // Comprobamos que el resultado contenga como cuerpo del texto la respuesta
-        if(response.body && response.body.result) {
-            result = response.body.result;
-        }
-    })
-    // Finalmente, retornamos el valor
-    return result;
+    return new Promise((accept, reject) => {
+        return request({ url: urlCenso+"/can_vote?id_votacion="+election_id+"&username="+username, json:true }, (err, res, obj) => {
+            if(err) {
+                return reject(err);
+            } else {
+                return accept(obj.result);
+            }
+        })
+    });
 }
 
 exports.getUser = getUser;
