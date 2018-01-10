@@ -104,6 +104,23 @@ function saveVote(ciphered_vote, election_id, user_id, question_id) {
     });
 }
 
+function getResponseId(answer, question_id) {
+    return new Promise((response_id, error) => {
+        return request({ url: urlVotacion+"/api/get/respuestas.json?id="+question_id, json: true },
+            (error, response, body) => {
+                if(error) {
+                    error(error);
+                } else {
+                    // Intentamos encontrar la respuesta
+                    // Primero, vemos si existe alguna respuesta con este mensaje
+                    var response_id = body.filter(response => response.texto_respuesta == answer)
+                        // En el caso de que sea el caso, aislamos el id
+                        .map(response => response.id);
+                }
+            })
+    });
+}
+
 // Este método realizará una llamada a la API de censos para comprobar que el usuario está dentro del censo de la votación
 function checkUserCensus(username, election_id) {
     return new Promise((accept, reject) => {
