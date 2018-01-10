@@ -5,15 +5,22 @@ var restify = require('restify');
 // Definimos el método que recibirá la solicitud del exterior.
 function canVote(request, response, next) {
     // Este método se encargará de recibir los datos de las solicitudes a votar.
-    var voting_form = processing.canVote(request.params.user, request.params.election);
-    response.send({ "return": voting_form[0], "reason": voting_form[1]});    
+    processing.canVote(request.params.user, request.params.election)
+      .then(voting_form => {
+        response.send({ "return": voting_form[0], "reason": voting_form[1]});
+    }).catch(err => {
+        response.send(500, "Internal server error");
+    });
 }
 
 // Definimos el método de votación
 function vote(request, response, next) {
     // Se obtienen los parámetros por body
-    var voting = processing.vote(request.body.id_user, request.body.id_election, request.body.answers);
-    response.send(voting[0],voting[1]);  
+    processing.vote(request.body.id_user, request.body.id_election, request.body.answers).then(voting_form => {
+        response.send(voting[0],voting[1]);
+    }).catch(err => {
+        response.send(500, "Internal server error");
+    })
 }
 
 // Creamos el servidor
