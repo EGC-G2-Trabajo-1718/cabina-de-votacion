@@ -67,7 +67,7 @@ function getAnswers(question_id){
 // Metodo para comprobar doble votacion
 function getDobleCheck(id_usuario, election_id){
     return new Promise((accept, reject) => {
-        return request({ url: urlAlmacenamiento+"/api/get/comprobar_voto/"+id_usuario+"/"+election_id, json:true }, (err, res, obj) => {
+        return request({ url: urlAlmacenamiento+"/api/get/comprobar_voto/token_bd/"+id_usuario+"/"+election_id, json:true }, (err, res, obj) => {
             if(err) {
                 return reject(err);
             } else {
@@ -93,7 +93,8 @@ function getAuthority(id){
 // Este método se encargará de realizar el guardado del voto, enviándolo a almacenamiento de votos.
 function saveVote(ciphered_vote, election_id, user_id, question_id) {
     return new Promise((accept, reject) => {
-        return request.post({ url: urlAlmacenamiento+"/api/post/almacenar_voto/"+user_id+"/"+election_id+"/"+question_id, json:true }, (err, res, obj) => {
+        return request.post({ url: urlAlmacenamiento+"/api/post/almacenar_voto/", json:true },
+        { token_bd: "token_bd", token_usuario: user_id, token_votacion: election_id, token_pregunta: question_id, token_respuesta: ciphered_vote } , (err, res, obj) => {
             if(err) {
                 return reject(err);
             } else {
