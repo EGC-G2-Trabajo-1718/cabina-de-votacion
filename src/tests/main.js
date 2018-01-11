@@ -31,6 +31,7 @@ console.log("Test el usuario no ha votado ya en dicha elección");
 console.log(processing.canVote(1, 1));
 
 // Tests de vote
+
 console.log("Tests de la función Vote");
 console.log("========================");
 

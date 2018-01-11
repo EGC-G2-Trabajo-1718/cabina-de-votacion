@@ -169,16 +169,11 @@ function getDobleCheck(id_usuario, election_id){
 
 //Implementación de la obtención de las autoridades para el cifrado
 function getAuthority(id){
-	//Obtenemos la peticion
-	var requestURL = 'http://egc-votacion1718.es/api/get/votacion.json?id='+id;
-	var request = new XMLHttpRequest();
-	request.open('GET', requestURL);
-	request.responseType = 'json';
-	request.send();
+	var clave;
 
-  	var authority = request.response;
-	//Devolvemos la clave
-	return authority.clave;
+	clave = "claveprueba";
+
+	return clave;
 }
 
 // Este método se encargará de realizar el guardado del voto, enviándolo a almacenamiento de votos.
