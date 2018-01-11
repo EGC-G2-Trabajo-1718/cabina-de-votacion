@@ -30,6 +30,12 @@ console.log(processing.canVote(1, 2));
 console.log("Test el usuario no ha votado ya en dicha elección");
 console.log(processing.canVote(1, 1));
 
+// JSON de answer
+var AnswerJSON = [{
+	question_id: 1,
+	answer: "Respuesta"
+}]
+
 // Tests de vote
 
 console.log("Tests de la función Vote");
@@ -46,12 +52,6 @@ console.log(processing.vote(0, 1, AnswerJSON));
 
 console.log("Test votación no permitida pues usuario ha votado anteriormente");
 console.log(processing.vote(1, 1, AnswerJSON));
-
-// JSON de answer
-var AnswerJSON = [{
-	question_id: 1,
-	answer: "Respuesta"
-}]
 
 
 // Prueba del sistema
