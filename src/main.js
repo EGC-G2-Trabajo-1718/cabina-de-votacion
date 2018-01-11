@@ -5,7 +5,12 @@ var restify = require('restify');
 // Definimos el método que recibirá la solicitud del exterior.
 function canVote(request, response, next) {
     // Este método se encargará de recibir los datos de las solicitudes a votar.
-    processing.canVote(request.params.user, request.params.election)
+    // Obtenemos los atributos
+    console.log(request.query);
+    var election = request.query.election;
+    console.log(election);
+    var user = request.query.user;
+    processing.canVote(user, election)
       .then(voting_form => {
         response.send({ "return": voting_form[0], "reason": voting_form[1]});
     }).catch(err => {
@@ -27,6 +32,7 @@ function vote(request, response, next) {
 var server = restify.createServer();
 //Esta línea es necesaria para parsear el cuerpo del mensaje (POST)
 server.use(restify.plugins.bodyParser());
+server.use(restify.plugins.queryParser());
 // Definimos los métodos que se usarán de Callback
 server.get('/api/check/vote.json', canVote);
 server.post('/api/create/vote.json', vote);
