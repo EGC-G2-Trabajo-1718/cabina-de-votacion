@@ -34,7 +34,7 @@ function canVote(user_id, election_id) {
 
                 // Despues hacemos comprobaciones del usuario
                 // Se realizará una llamada al módulo de administración de censos para ver si el usuario está en el censo
-                return authorization.checkUserCensus(user.username, election_id).then(result => {
+                authorization.checkUserCensus(user.username, election_id).then(result => {
                     // En el caso de que no pertenezca al censo
                     if(!result) {
                         return voting_form([false, "cant_vote"]);
@@ -63,13 +63,11 @@ function canVote(user_id, election_id) {
 
 function vote(id_user, id_election, answers) {
     return new Promise((voting_form, error) => {
-        console.log("Entra en el 1o");
         canVote(id_user, id_election).then(canvote => {
-            console.log("Entra en el 2o");
             // Comprobamos que el usuario pueda votar en esa encuesta usando la función canVote
             if(canvote[1]=="can_vote"){
                 //Obtenemos la clave con la que vamos a encriptar el voto
-                return auth.getAuthority(id_election).then(key => {
+                auth.getAuthority(id_election).then(key => {
                     // Para cada pregunta que tengamos, ciframos su contenido y lo enviamos al módulo de almacenamiento
                     for (var i = 0; i < answers.length; i++) {
                         var encrypted_answers = encryptor.encrypt_vote(answers[i], key);
