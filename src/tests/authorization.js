@@ -133,56 +133,6 @@ function getQuestions(election_id){
 }
 
 function getAnswers(question_id){
-	var result;
-	
-	if(question_id == "1"){
-		var resultString = {
-			id: 1,
-			id_pregunta: 1,
-			texto_respuesta: "prueba 1 - respuesta 1"
-		}
-		result = resultString;
-	} else if(question_id == "2"){
-		var resultString = {
-			id: 2,
-			id_pregunta: 2,
-			texto_respuesta: "prueba 2 - respuesta 1"
-		}
-	}
-}
-
-
-
-function getQuestions(election_id){
-	var options = {
-		"method": "GET",
-		"hostname": url,
-		"port": 80,
-		"path":	"/api/get/preguntas.json?id="+election_id,
-		"json":true
-	};
-
-	var req = http.request(options, function(res) {
-		res.setEncoding('utf-8');
-		var responseString='';
-
-		res.on('data', function(data){
-			responseString += data;
-		});
-		res.on('end', function(){
-			console.log(responseString); //Muestra la respuesta por consola
-			var responseObject = JSON.parse(responseString);
-			success(responseObject);
-		});
-	});
-
-	req.write(dataString);
-
-	req.end();
-
-}
-
-function getAnswers(question_id){
 	var options = {
 		"method": "GET",
 		"hostname": url,

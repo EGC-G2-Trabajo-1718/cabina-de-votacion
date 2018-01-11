@@ -35,16 +35,23 @@ console.log("Tests de la función Vote");
 console.log("========================");
 
 console.log("Test correcto");
-console.log(processing.vote(1, 1, (1, "respuesta 1"));
+console.log(processing.vote(1, 1, AnswerJSON));
 
 console.log("Test elección no encontrada");
-console.log(processing.vote(1, 0, (1, "respuesta 1"));
+console.log(processing.vote(1, 0, AnswerJSON));
 
 console.log("Test usuario no encontrado");
-console.log(processing.vote(0, 1, (1, "respuesta 1"));
+console.log(processing.vote(0, 1, AnswerJSON));
 
 console.log("Test votación no permitida pues usuario ha votado anteriormente");
-console.log(processing.vote(1, 1, (1, "respuesta 1"));
+console.log(processing.vote(1, 1, AnswerJSON));
+
+// JSON de answer
+var AnswerJSON = [{
+	question_id: 1,
+	answer: "Respuesta"
+}]
+
 
 // Prueba del sistema
 client.get('/api/check/vote.json?user=1&election=1', (err, req, res, obj) => {
