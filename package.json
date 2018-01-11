@@ -9,16 +9,17 @@
      "dependencies": {
           "rest": "2.0.0",
           "restify": "6.3.4",
-          "async": "2.6.0",
-          "lodash": "4.17.4"
+          "bluebird": "3.5.1",
+          "request": "2.83.0"
      },
      "devDependencies": {
-        "grunt": "1.0.1",
-        "grunt-contrib-nodeunit": "1.0.0",
-        "grunt-contrib-uglify": "3.3.0",
-        "grunt-contrib-clean": "1.1.0"
+          "grunt": "1.0.1",
+          "grunt-contrib-nodeunit": "1.0.0",
+          "grunt-contrib-uglify": "3.3.0",
+          "grunt-contrib-clean": "1.1.0"
      },
      "scripts": {
+          "prestart": "npm install",
           "start": "node src/main.js"
      }
 }
