@@ -91,14 +91,20 @@ function getAuthority(id){
 }
 
 // Este método se encargará de realizar el guardado del voto, enviándolo a almacenamiento de votos.
-function saveVote(ciphered_vote, election_id, user_id, question_id) {
+function saveVote(response_id, election_id, user_id, question_id) {
     return new Promise((accept, reject) => {
         return request.post({ url: urlAlmacenamiento+"/api/post/almacenar_voto/", json:true },
-        { token_bd: "token_bd", token_usuario: user_id, token_votacion: election_id, token_pregunta: question_id, token_respuesta: ciphered_vote } , (err, res, obj) => {
+        { token_bd: "token_bd", token_usuario: user_id, token_votacion: election_id, token_pregunta: question_id, token_respuesta: response_id } , (err, res, obj) => {
             if(err) {
                 return reject(err);
             } else {
-                return accept(obj);
+                // Si el código de la respuesta es 200, lo aceptamos
+                if(response.statusCode == 200) {
+                    return accept(obj);
+                } else {
+                    // En caso contrario, retornaremos error
+                    return reject(response.statusCode);
+                }
             }
         })
     });
