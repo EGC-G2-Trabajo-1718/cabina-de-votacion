@@ -6,11 +6,11 @@ var Promise = require('bluebird');
 function canVote(user_id, election_id) {
     return new Promise((voting_form, err) => {
         auth.getElection(election_id).then(election => {
-            election = election.votacion;
             // Comprobamos si está vacia
             if (!election) {
                 return voting_form([false, "election_not_found"]);
             }
+            election = election.votacion;
             // Ahora obtenemos el usuario
             auth.getUser(user_id).then(user => {
                 if (!user) {
@@ -70,11 +70,14 @@ function vote(id_user, id_election, answers) {
                 auth.getAuthority(id_election).then(key => {
                     // Para cada pregunta que tengamos, ciframos su contenido y lo enviamos al módulo de almacenamiento
                     for (var i = 0; i < answers.length; i++) {
-                        var encrypted_answers = encryptor.encrypt_vote(answers[i], key);
-                        // Comprobamos que el envío a almacenamiento es correcto:
-                        authorization.saveVote(encrypted_answers, id_election, id_user, answers[i].question_id).then().catch(err => {
-                            // Si no es correcto se mostrará el mensaje de error en el envío
-                            return voting_form([500, JSON.stringify({"result": false, "reason":"error_sending"})]);
+                        // var encrypted_answers = encryptor.encrypt_vote(answers[i], key); Los otros grupos no permite en cifrado del voto por lo que prescindimos de él
+                        // Encontramos el id de la respuesta
+                        authorization.getResponseId(answers[i].answer, answers[i].question_id).then(response_id => {
+                            // Comprobamos que el envío a almacenamiento es correcto:
+                            authorization.saveVote(response_id, id_election, id_user, answers[i].question_id).then().catch(err => {
+                                // Si no es correcto se mostrará el mensaje de error en el envío
+                                return voting_form([500, JSON.stringify({"result": false, "reason":"error_sending"})]);
+                            });
                         });
                     }
                     // Una vez terminemos de encriptar y enviar los votos, tendremos que responder con un mensaje correcto

@@ -119,9 +119,18 @@ function getResponseId(answer, question_id) {
                 } else {
                     // Intentamos encontrar la respuesta
                     // Primero, vemos si existe alguna respuesta con este mensaje
-                    var response_id = body.filter(response => response.texto_respuesta == answer)
+                    var equal_response = body.filter(response => response.texto_respuesta == answer)
                         // En el caso de que sea el caso, aislamos el id
                         .map(response => response.id);
+                    // Ahora comprobamos que en efecto exista una respuesta con estas condiciones
+                    if (equal_response.length > 1) {
+                        // En el caso de existir, retornamos el único (con suerte) resultado
+                        return response_id(equal_response[0]);
+                    } else {
+                        // En caso contrario, retornaremos un -1 para indicar la no existencia de índice de la respuesta
+                        return response_id(-1);
+                    }
+                    
                 }
             })
     });
