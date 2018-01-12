@@ -11,7 +11,7 @@
           "restify": "6.3.4",
           "bluebird": "3.5.1",
           "request": "2.83.0",
-          "restify-clients": "1.5.2",
+          "restify-clients": "1.5.2"
      },
      "devDependencies": {
           "grunt": "1.0.1",

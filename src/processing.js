@@ -1,10 +1,14 @@
-var auth = require('./authorization.js');
+if(process.env.NODE_ENV=="test") {
+    var auth = require('./tests/authorization');
+} else {
+    var auth = require('./main/authorization');
+}
 var encryptor = require('./encryptor.js');
 
 var Promise = require('bluebird');
 
 function canVote(user_id, election_id) {
-    return new Promise((voting_form, err) => {
+    return new Promise(voting_form => {
         auth.getElection(election_id).then(election => {
             // Comprobamos si está vacia
             if (!election) {
@@ -34,7 +38,7 @@ function canVote(user_id, election_id) {
 
                 // Despues hacemos comprobaciones del usuario
                 // Se realizará una llamada al módulo de administración de censos para ver si el usuario está en el censo
-                authorization.checkUserCensus(user.username, election_id).then(result => {
+                auth.checkUserCensus(user.username, election_id).then(result => {
                     // En el caso de que no pertenezca al censo
                     if(!result) {
                         return voting_form([false, "cant_vote"]);
@@ -47,47 +51,34 @@ function canVote(user_id, election_id) {
                         }
                         // Si todo lo anterior es correcto, podemos admitir al usuario a votar
                         return voting_form([true, "can_vote"]);
-                    }).catch(error => {
-                        err(error);
                     });
-                }).catch(error => {
-                    err(error);
                 });
-            }).catch(error => {
-                err(error);
             });
-        }).catch(error => {
-            err(error);
         });
-    }).catch(error => {
-        err(error);
     });
 }
 
 
 function vote(id_user, id_election, answers) {
-    return new Promise((voting_form, error) => {
+    return new Promise(voting_form => {
         canVote(id_user, id_election).then(canvote => {
             // Comprobamos que el usuario pueda votar en esa encuesta usando la función canVote
             if(canvote[1]=="can_vote"){
                 //Obtenemos la clave con la que vamos a encriptar el voto
                 auth.getAuthority(id_election).then(key => {
+                    var failedVote = false;
                     // Para cada pregunta que tengamos, ciframos su contenido y lo enviamos al módulo de almacenamiento
                     for (var i = 0; i < answers.length; i++) {
-                        // var encrypted_answers = encryptor.encrypt_vote(answers[i], key); Los otros grupos no permite en cifrado del voto por lo que prescindimos de él
+                        var answer = answers[i];
                         // Encontramos el id de la respuesta
-                        auth.getResponseId(answers[i].answer, answers[i].question_id).then(response_id => {
-                            // Comprobamos que el envío a almacenamiento es correcto:
-                            auth.saveVote(response_id, id_election, id_user, answers[i].question_id).then().catch(err => {
-                                // Si no es correcto se mostrará el mensaje de error en el envío
-                                return voting_form([500, JSON.stringify({"result": false, "reason":"error_sending"})]);
-                            });
+                        auth.getResponseId(answer.answer, answer.question_id).then(response_id => {
+                            // Como se han realizado comprobaciones anteriormente sobre el voto, no debería dar errores en el guardado.
+                            auth.saveVote(response_id, id_election, id_user, answer.question_id);
                         });
                     }
+                    
                     // Una vez terminemos de encriptar y enviar los votos, tendremos que responder con un mensaje correcto
-                    return voting_form([200, JSON.stringify({ "result": false, "reason": "can_vote" })]);
-                }).catch(error => {
-                    error(error);
+                    return voting_form([200, JSON.stringify({ "result": true, "reason": "can_vote" })]);
                 });
             // Tanto si no se muestra la votación como el usuario, en ambos casos se lanzará un código de estado 404 y la razón del mismo
             } else if(canvote[1]=="election_not_found") {
@@ -98,11 +89,7 @@ function vote(id_user, id_election, answers) {
             } else {
                 return voting_form([403,JSON.stringify({"result":false,"reason":canvote[1]})]);
             }
-        }).catch(error => {
-            error(error);
         });
-    }).catch(error => {
-        error(error);
     });
 }
 

@@ -6,9 +6,7 @@ var restify = require('restify');
 function canVote(request, response, next) {
     // Este método se encargará de recibir los datos de las solicitudes a votar.
     // Obtenemos los atributos
-    console.log(request.query);
     var election = request.query.election;
-    console.log(election);
     var user = request.query.user;
     processing.canVote(user, election)
       .then(voting_form => {
@@ -22,9 +20,9 @@ function canVote(request, response, next) {
 function vote(request, response, next) {
     // Se obtienen los parámetros por body
     processing.vote(request.body.id_user, request.body.id_election, request.body.answers).then(voting_form => {
-        response.send(voting[0],voting[1]);
+        response.send(voting_form[0], voting_form[1]);
     }).catch(err => {
-        response.send(500, "Internal server error");
+        response.send(err[0], err[1]);
     })
 }
 
@@ -43,3 +41,5 @@ server.listen(80, function() {
     // Avisamos de la activación del servidor.
     console.log("Server "+server.name+" started at URL: "+server.url);
 });
+
+exports.server = server;
