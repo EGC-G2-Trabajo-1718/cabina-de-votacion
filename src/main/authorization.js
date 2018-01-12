@@ -67,7 +67,7 @@ function getAnswers(question_id){
 // Metodo para comprobar doble votacion
 function getDobleCheck(id_usuario, election_id){
     return new Promise((accept, reject) => {
-        return request({ url: urlAlmacenamiento+"/api/get/comprobar_voto/token_bd/"+id_usuario+"/"+election_id, json:true }, (err, res, obj) => {
+        return request({ url: urlAlmacenamiento+"/api/get/comprobar_voto/12345QWERTY/"+id_usuario+"/"+election_id, json:true }, (err, res, obj) => {
             if(err) {
                 return reject(err);
             } else {
@@ -94,7 +94,7 @@ function getAuthority(id){
 function saveVote(response_id, election_id, user_id, question_id) {
     return new Promise((accept, reject) => {
         return request(urlAlmacenamiento+"/api/post/almacenar_voto/", { json:true, method: "POST" },
-        { token_bd: "token_bd", token_usuario: user_id, token_votacion: election_id, token_pregunta: question_id, token_respuesta: response_id } , (err, res, obj) => {
+        { token_bd: "12345QWERTY", token_usuario: user_id, token_votacion: election_id, token_pregunta: question_id, token_respuesta: response_id } , (err, res, obj) => {
             if(err) {
                 return reject(err);
             } else {
