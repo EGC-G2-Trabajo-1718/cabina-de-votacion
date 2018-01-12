@@ -50,6 +50,8 @@ function canVote(user_id, election_id) {
                     }).catch(error => {
                         err(error);
                     });
+                }).catch(error => {
+                    err(error);
                 });
             }).catch(error => {
                 err(error);
@@ -57,6 +59,8 @@ function canVote(user_id, election_id) {
         }).catch(error => {
             err(error);
         });
+    }).catch(error => {
+        err(error);
     });
 }
 
@@ -72,9 +76,9 @@ function vote(id_user, id_election, answers) {
                     for (var i = 0; i < answers.length; i++) {
                         // var encrypted_answers = encryptor.encrypt_vote(answers[i], key); Los otros grupos no permite en cifrado del voto por lo que prescindimos de él
                         // Encontramos el id de la respuesta
-                        authorization.getResponseId(answers[i].answer, answers[i].question_id).then(response_id => {
+                        auth.getResponseId(answers[i].answer, answers[i].question_id).then(response_id => {
                             // Comprobamos que el envío a almacenamiento es correcto:
-                            authorization.saveVote(response_id, id_election, id_user, answers[i].question_id).then().catch(err => {
+                            auth.saveVote(response_id, id_election, id_user, answers[i].question_id).then().catch(err => {
                                 // Si no es correcto se mostrará el mensaje de error en el envío
                                 return voting_form([500, JSON.stringify({"result": false, "reason":"error_sending"})]);
                             });
@@ -82,6 +86,8 @@ function vote(id_user, id_election, answers) {
                     }
                     // Una vez terminemos de encriptar y enviar los votos, tendremos que responder con un mensaje correcto
                     return voting_form([200, JSON.stringify({ "result": false, "reason": "can_vote" })]);
+                }).catch(error => {
+                    error(error);
                 });
             // Tanto si no se muestra la votación como el usuario, en ambos casos se lanzará un código de estado 404 y la razón del mismo
             } else if(canvote[1]=="election_not_found") {
@@ -92,8 +98,12 @@ function vote(id_user, id_election, answers) {
             } else {
                 return voting_form([403,JSON.stringify({"result":false,"reason":canvote[1]})]);
             }
+        }).catch(error => {
+            error(error);
         });
-    });	
+    }).catch(error => {
+        error(error);
+    });
 }
 
 exports.canVote = canVote;
