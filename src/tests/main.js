@@ -1,4 +1,5 @@
 var main = require('./../main');
+var encryptor = require('./../encryptor');
 var processing = require('./../processing');
 var clients = require('restify-clients');
 

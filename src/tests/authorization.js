@@ -192,6 +192,16 @@ function saveVote(ciphered_vote, election_id, user_id) {
 	return result;
 }
 
+// Este método realizará una llamada a la API de censos para comprobar que el usuario está dentro del censo de la votación
+function checkUserCensus(username, election_id) {
+    // Retornaremos true salvo cuando el username sea 1 y el election_id 2
+    if(username != "1" && election_id != "2") {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 exports.getUser = getUser;
 exports.getElection = getElection;
 exports.getQuestions = getQuestions;
