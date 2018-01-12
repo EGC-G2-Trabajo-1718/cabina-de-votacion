@@ -3,22 +3,26 @@
      "repository": "https://github.com/EGC-G2-Trabajo-1718/cabina-de-votacion",
      "version": "1.0.0",
      "description": "Este modulo se encarga de la gestión de los votos.",
-     "main": "tests.js",
+     "main": "main/main.js",
      "author": "ignalelop@alum.us.es",
      "license": "GNU GPL3",
      "dependencies": {
           "rest": "2.0.0",
           "restify": "6.3.4",
+          "restify-clients": "1.5.2",
           "async": "2.6.0",
           "lodash": "4.17.4"
      },
      "devDependencies": {
-        "grunt": "1.0.1",
-        "grunt-contrib-nodeunit": "1.0.0",
-        "grunt-contrib-uglify": "3.3.0",
-        "grunt-contrib-clean": "1.1.0"
+          "grunt": "1.0.1",
+          "grunt-contrib-nodeunit": "1.0.0",
+          "grunt-contrib-uglify": "3.3.0",
+          "grunt-contrib-clean": "1.1.0"
      },
      "scripts": {
-          "start": "node src/main.js"
+          "pretest": "npm install",
+          "prestart": "npm install",
+          "start": "node src/main.js",
+          "test": "NODE_ENV=test node src/tests/main.js"
      }
 }
