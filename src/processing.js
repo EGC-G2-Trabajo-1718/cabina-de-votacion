@@ -7,11 +7,12 @@ var encryptor = require('./encryptor');
 
 function canVote(user_id, election_id) {
     // Obtenemos la elección
-    var election = auth.getElection(user_id, election_id);
+    var election = auth.getElection(election_id);
     // Comprobamos si está vacia
     if(!election) {
         return [false, "cant_vote"];
     }
+    election = election.votacion;
     // Ahora obtenemos el usuario
     var user = auth.getUser(user_id);
     if(!user) {
@@ -39,9 +40,9 @@ function canVote(user_id, election_id) {
         return [false, "cant_vote"];
     }
 
-    var election = auth.getDobleCheck(user_id, election_id);
+    var check = auth.getDobleCheck(user_id, election_id);
     //Si devuelve true no podra votar de nuevo
-    if(election){
+    if(check){
       return [false, "cant_vote"];
     }
     // Si todo lo anterior es correcto, podemos admitir al usuario a votar

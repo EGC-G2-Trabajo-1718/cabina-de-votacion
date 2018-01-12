@@ -3,60 +3,107 @@ var rest = require("rest");
 var urlGrupoAutenticacion= "urlGrupoAutenticacion";
 var urlVotacion = "https://www.reqres.in";
 
+//Admite como usuarios válidos a paco1 y javi1. Si no, devuelve mensaje de error
 function getUser(username){
-	var options = {
-		"method": "GET",
-		"hostname": urlGrupoAutenticacion,
-		"port": 80,
-		"path":	"/api/index.php?method=getUser&user="+username,
-		"json":true
-	};
+	var result;
+	
+	if(username == "1"){
+		//Procedemos a crear el objeto usuario formándolo en una cadena de texto.
+		var resultString = {
+			result: true,
+			msg: "Successfull",
+			username: "paco1",
+			name: "Paco",
+			surname: "Castro Botella",
+			email: "paco1@gmail.com",
+			genre: "Masculino",
+			autonomous_community: "Andalucía",
+			age: 21,
+			role: "ASISTENTE",
+			id_grupo: 31
+		};
+		
+		//Pasamos la cadena de texto a objeto JSON
+		result = resultString;
 
-	var req = http.request(options, function(res) {
-		res.setEncoding('utf-8');
-		var responseString='';
+	}else if(username == "2"){
+		//En este caso se realiza de otra forma también válida
+		//Creamos la variable object en la que formaremos el JSON
+		resultObject = {
 
-		res.on('data', function(data){
-			responseString += data;
-		});
-		res.on('end', function(){
-			console.log(responseString); //Muestra la respuesta por consola
-			var responseObject = JSON.parse(responseString);
-			success(responseObject);
-		});
-	});
+        }
+		//Le damos valor a los distintos atributos del JSON
+		resultObject.result = true;
+		resultObject.msg = "Succesfull";
+		resultObject.username = "javi1";
+		resultObject.name = "Javi";
+		resultObject.surname = "Gallego Santos";
+		resultObject.email = "javi1@gmail.com";
+		resultObject.genre = "Masculino";
+		resultObject.autonomous_community = "Extremadura";
+		resultObject.age = "32";
+		resultObject.role = "ASISTENTE";
+		resultObject.id_grupo = 40;
+		
+		//Esto comprueba que efectivamente el objeto se pase a cadena de texto y luego
+		//a un JSON válido
+		result = resultString;
+	}//Si no cumple con ningun username de los anteriores, se devuelve null
 
-	req.write(dataString);
-
-	req.end();
+	return result;
 }
 
 function getElection(election_id){
-	var options = {
-		"method": "GET",
-		"hostname": urlVotacion,
-		"port": 80,
-		"path":"/api/get/votacion.json?id="+election_id,
-		"json":true
-	};
+	var result;	
 
-	var req = http.request(options, function(res) {
-		res.setEncoding('utf-8');
-		var responseString='';
+	if(election_id == "1"){
+		//Procedemos a crear la elección en formato JSON
+        var resultString = {
+            votacion: {
+                id: 1,
+                id_censo: 288,
+                id_grupo: 31,
+                titulo: "Votacion 1 prueba",
+                descripción: "Esta es una votacion de prueba",
+                fecha_ini: "31/07/2017 07:07",
+                fecha_fin: "31/08/2018 07:07",
+                id_preguntas: [2,3]
+            }
+		};
+		result = resultString;
+	}else if(election_id == "2"){
+        	var resultString = {
+           	 votacion: {
+             	   id: 2,
+              	  id_censo: 255,
+              	  id_grupo: 32,
+              	  titulo: "Votacion 2 prueba",
+               	 descripción: "Esta es otra votacion de prueba",
+               	 fecha_ini: "31/07/2017 07:07",
+               	 fecha_fin: "31/08/2018 07:07",
+               	 id_preguntas: [1, 4]
+           	 }
+        	}
+		result = resultString;
 
-		res.on('data', function(data){
-			responseString += data;
-		});
-		res.on('end', function(){
-			console.log(responseString); //Muestra la respuesta por consola
-			var responseObject = JSON.parse(responseString);
-			success(responseObject);
-		});
-	});
+	}else if(election_id == "3"){
+        	var resultString = {
+           	 votacion: {
+             	   id: 3,
+              	  id_censo: 255,
+              	  id_grupo: 31,
+              	  titulo: "Votacion 3 prueba",
+               	 descripción: "Esta es otra votacion de prueba, con fecha expirada",
+               	 fecha_ini: "31/07/2017 07:07",
+               	 fecha_fin: "31/08/2017 07:07",
+               	 id_preguntas: [1, 4]
+           	 }
+        	}
+		result = resultString;
 
-	req.write(dataString);
-
-	req.end();
+	}//Si no cumple con ninguna id de las anteriores, se devuelve null
+	
+	return result;
 
 }
 
@@ -120,25 +167,8 @@ function getAnswers(question_id){
 
 //Metodo para comprobar doble votacion
 function getDobleCheck(id_usuario, election_id){
-	//Paso 1- Establecemos el encabezado
-	var request = require('request');
-
-	//Paso 2- Configuramos la solicitudes
-	var options = {
-		"method": "GET",
-		"url": "https://almacenamiento.nvotesus.es/api/get/comprobar_voto/"+{id_usuario}+"/"+{election_id},
-		"port": 80,
-		"json": true
-	}
-
-	//Paso 3-Comprobamos si ya ha habido una votacion o no
-	var compr=false;
-	request(options, function (error, response, body) {
-		if (!error && response.statusCode == 200) {
-			compr=true;
-		}
-	});
-	return compr;
+    // Método de prueba, asumimos que nunca vota doble
+    return false;
 }
 
 //Implementación de la obtención de las autoridades para el cifrado
