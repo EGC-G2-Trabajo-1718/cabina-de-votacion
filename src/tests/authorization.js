@@ -108,32 +108,28 @@ function getElection(election_id){
 }
 
 function getQuestions(election_id){
-	var options = {
-		"method": "GET",
-		"hostname": url,
-		"port": 80,
-		"path":	"/api/get/preguntas.json?id="+election_id,
-		"json":true
-	};
+	var result;
 
-	var req = http.request(options, function(res) {
-		res.setEncoding('utf-8');
-		var responseString='';
-
-		res.on('data', function(data){
-			responseString += data;
-		});
-		res.on('end', function(){
-			console.log(responseString); //Muestra la respuesta por consola
-			var responseObject = JSON.parse(responseString);
-			success(responseObject);
-		});
-	});
-
-	req.write(dataString);
-
-	req.end();
-
+	if(election_id == "1"){
+		var resultString = {
+			id: 1,
+			id_votacion: 1,
+			texto_pregunta: "prueba 1 - pregunta 1",
+			tipo_pregunta: "abierta",
+			id_dependencia: null			
+		}
+		result = resultString;
+	} else if(election_id == "2"){
+		var resultString = {
+			id: 2,
+			id_votacion: 2,
+			texto_pregunta: "prueba 2 - pregunta 1",
+			tipo_pregunta: "cerrada",
+			id_dependencia: null
+		}
+		result = resultString;
+	}
+	return result;
 }
 
 function getAnswers(question_id){
@@ -173,16 +169,11 @@ function getDobleCheck(id_usuario, election_id){
 
 //Implementación de la obtención de las autoridades para el cifrado
 function getAuthority(id){
-	//Obtenemos la peticion
-	var requestURL = 'http://egc-votacion1718.es/api/get/votacion.json?id='+id;
-	var request = new XMLHttpRequest();
-	request.open('GET', requestURL);
-	request.responseType = 'json';
-	request.send();
+	var clave;
 
-  	var authority = request.response;
-	//Devolvemos la clave
-	return authority.clave;
+	clave = "claveprueba";
+
+	return clave;
 }
 
 // Este método se encargará de realizar el guardado del voto, enviándolo a almacenamiento de votos.

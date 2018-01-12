@@ -59,7 +59,7 @@ function vote(id_user, id_election, answers) {
 		// Procedemos a encriptar 
         var encrypted_answers = encryptor.encrypt_vote(answers,key);
         // Comprobamos que el envío a almacenamiento es correcto:
-        if(!authorization.saveVote(encrypted_answers, id_election, id_user)) {
+        if(!auth.saveVote(encrypted_answers, id_election, id_user)) {
 	    // Si no es correcto se mostrará el mensaje de error en el envío
             return [500, JSON.stringify({"result": false, "reason":"error_sending"})];
 		} else {

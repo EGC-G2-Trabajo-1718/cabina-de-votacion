@@ -3,11 +3,21 @@ language: node_js
 node_js:
 - "node"
 - "9"
+
+# Instalamos grunt en el caso de que no lo esté
+before_install:
+  - openssl aes-256-cbc -K $encrypted_7b716c4876f6_key -iv $encrypted_7b716c4876f6_iv -in deploy.enc -out deploy -d
+  - npm install -g grunt-cli
 install:
-- npm install
+  - npm install
 
 script:
-- npm test
+  - npm test
+
+# Si se ha probado de forma correcta el test, se ejecutará la construcción del archivo 'bundle.js'.
+after_success:
+  - grunt clean
+  - grunt uglify
 
 notifications:
  email:
@@ -19,6 +29,3 @@ notifications:
   - karli-chin@hotmail.com
   on_success: never
   on_failure: always
-
-
-
