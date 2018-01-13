@@ -33,7 +33,7 @@ function getElection(election_id){
             if(err) {
                 return reject(err);
             } else {
-                return accept(obj.votacion);
+                return accept(obj);
             }
         })
     });
@@ -71,7 +71,7 @@ function getDobleCheck(id_usuario, election_id){
             if(err) {
                 return reject(err);
             } else {
-                return accept(obj);
+                return accept(obj.code?false:true);
             }
         })
     });
@@ -84,7 +84,7 @@ function getAuthority(id){
             if(err) {
                 return reject(err);
             } else {
-                return accept(obj);
+                return accept(obj.clave);
             }
         })
     });
