@@ -27,7 +27,8 @@ before_install:
 install:
   - npm install
 
-# Se va a prescindir de la ejecución de tests ya que da problemas en la construcción. 
+script:
+  - npm test
 
 # Si se ha probado de forma correcta el test, se ejecutará la construcción del archivo 'bundle.js'.
 after_success:

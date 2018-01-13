@@ -119,13 +119,13 @@ processing.vote(0, 1, AnswerJSON).then(result => {
 
 
 // Prueba del sistema
-request('http://localhost/api/check/vote.json?user=1&election=1', (err, res, body) => {
+request('http://localhost:8080/api/check/vote.json?user=1&election=1', (err, res, body) => {
     if (err) {
         console.error(err.stack);
     } else {
         console.log("Checked vote with user 1 and election 1");
         // Si la anterior respuesta funciona, vamos a la segunda
-        request("http://localhost/api/create/vote.json", { json: {
+        request("http://localhost:8080/api/create/vote.json", { json: {
             id_user: "1", id_election: "1",
             answers: [
                 { 

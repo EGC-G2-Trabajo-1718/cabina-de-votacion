@@ -37,7 +37,7 @@ server.post('/api/create/vote.json', vote);
 
 // Finalmente, ejecutamos el servidor:
 // En principio usaremos el puerto 80.
-server.listen(80, function() {
+server.listen(process.env.NODE_ENV=="test"?8080:80, function() {
     // Avisamos de la activación del servidor.
     console.log("Server "+server.name+" started at URL: "+server.url);
 });
