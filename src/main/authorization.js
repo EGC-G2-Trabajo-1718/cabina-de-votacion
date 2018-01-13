@@ -33,7 +33,7 @@ function getElection(election_id){
             if(err) {
                 return reject(err);
             } else {
-                return accept(obj.votacion);
+                return accept(obj);
             }
         })
     });
@@ -67,11 +67,11 @@ function getAnswers(question_id){
 // Metodo para comprobar doble votacion
 function getDobleCheck(id_usuario, election_id){
     return new Promise((accept, reject) => {
-        return request({ url: urlAlmacenamiento+"/api/get/comprobar_voto/token_bd/"+id_usuario+"/"+election_id, json:true }, (err, res, obj) => {
+        return request({ url: urlAlmacenamiento+"/api/get/comprobar_voto/12345QWERTY/"+id_usuario+"/"+election_id, json:true }, (err, res, obj) => {
             if(err) {
                 return reject(err);
             } else {
-                return accept(obj);
+                return accept(obj.code?false:true);
             }
         })
     });
@@ -84,23 +84,55 @@ function getAuthority(id){
             if(err) {
                 return reject(err);
             } else {
-                return accept(obj);
+                return accept(obj.clave);
             }
         })
     });
 }
 
 // Este método se encargará de realizar el guardado del voto, enviándolo a almacenamiento de votos.
-function saveVote(ciphered_vote, election_id, user_id, question_id) {
+function saveVote(response_id, election_id, user_id, question_id) {
     return new Promise((accept, reject) => {
-        return request.post({ url: urlAlmacenamiento+"/api/post/almacenar_voto/", json:true },
-        { token_bd: "token_bd", token_usuario: user_id, token_votacion: election_id, token_pregunta: question_id, token_respuesta: ciphered_vote } , (err, res, obj) => {
+        return request(urlAlmacenamiento+"/api/post/almacenar_voto/", { json:true, method: "POST" },
+        { token_bd: "12345QWERTY", token_usuario: user_id, token_votacion: election_id, token_pregunta: question_id, token_respuesta: response_id } , (err, res, obj) => {
             if(err) {
                 return reject(err);
             } else {
-                return accept(obj);
+                // Si el código de la respuesta es 200, lo aceptamos
+                if(response.statusCode == 200) {
+                    return accept(obj);
+                } else {
+                    // En caso contrario, retornaremos error
+                    return reject(response.statusCode);
+                }
             }
         })
+    });
+}
+
+function getResponseId(answer, question_id) {
+    return new Promise((response_id, error) => {
+        return request({ url: urlVotacion+"/api/get/respuestas.json?id="+question_id, json: true },
+            (error, response, body) => {
+                if(error) {
+                    error(error);
+                } else {
+                    // Intentamos encontrar la respuesta
+                    // Primero, vemos si existe alguna respuesta con este mensaje
+                    var equal_response = body.filter(response => response.texto_respuesta == answer)
+                        // En el caso de que sea el caso, aislamos el id
+                        .map(response => response.id);
+                    // Ahora comprobamos que en efecto exista una respuesta con estas condiciones
+                    if (equal_response.length > 1) {
+                        // En el caso de existir, retornamos el único (con suerte) resultado
+                        return response_id(equal_response[0]);
+                    } else {
+                        // En caso contrario, retornaremos un -1 para indicar la no existencia de índice de la respuesta
+                        return response_id(-1);
+                    }
+                    
+                }
+            })
     });
 }
 
