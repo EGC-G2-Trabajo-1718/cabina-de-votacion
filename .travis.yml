@@ -46,6 +46,7 @@ deploy:
   script: ssh -o StrictHostKeyChecking=no deploy@egc.duckdns.org 'bash -s' < deploy.sh cabina_votaciones
   on:
     branch: master
+    node: 'node'
 
 notifications:
  email:
