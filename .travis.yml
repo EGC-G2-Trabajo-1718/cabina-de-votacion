@@ -43,7 +43,7 @@ before_deploy:
 deploy:
   skip_cleanup: true
   provider: script
-  script: ssh deploy@egc.duckdns.org 'bash -s' < deploy.sh cabina_votaciones
+  script: ssh -o StrictHostKeyChecking=no deploy@egc.duckdns.org 'bash -s' < deploy.sh cabina_votaciones
   on:
     branch: master
 
