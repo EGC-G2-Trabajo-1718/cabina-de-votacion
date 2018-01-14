@@ -157,3 +157,4 @@ exports.getDobleCheck = getDobleCheck;
 exports.getAuthority = getAuthority;
 exports.saveVote = saveVote;
 exports.checkUserCensus = checkUserCensus;
+exports.getResponseId = getResponseId;
