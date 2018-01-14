@@ -13,7 +13,7 @@ function getUser(username){
     // Creamos una Promise donde se retornará o bien el mensaje correcto o un error
     return new Promise((accept, reject) => {
         // Se realiza la llamada a la API del otro grupo y el callback será interpretado como Promise
-        request({ url: urlAutenticacion+"/api/index.php?method=getUser&user="+username, json: true }, (err, res, obj) => {
+        request({ url: urlAutenticacion+"/api/getUser/"+username, json: true }, (err, res, obj) => {
             // Si la respuesta es erronea
             if(err) {
                 // Se enviará la información
@@ -67,7 +67,7 @@ function getAnswers(question_id){
 // Metodo para comprobar doble votacion
 function getDobleCheck(id_usuario, election_id){
     return new Promise((accept, reject) => {
-        return request({ url: urlAlmacenamiento+"/api/get/comprobar_voto/12345QWERTY/"+id_usuario+"/"+election_id, json:true }, (err, res, obj) => {
+        return request({ url: urlAlmacenamiento+"/api/get/comprobar_voto/QWERTY12345/"+id_usuario+"/"+election_id, json:true }, (err, res, obj) => {
             if(err) {
                 return reject(err);
             } else {
@@ -94,7 +94,7 @@ function getAuthority(id){
 function saveVote(response_id, election_id, user_id, question_id) {
     return new Promise((accept, reject) => {
         return request(urlAlmacenamiento+"/api/post/almacenar_voto/", { json:true, method: "POST" },
-        { token_bd: "12345QWERTY", token_usuario: user_id, token_votacion: election_id, token_pregunta: question_id, token_respuesta: response_id } , (err, res, obj) => {
+        { token_bd: "QWERTY12345", token_usuario: user_id, token_votacion: election_id, token_pregunta: question_id, token_respuesta: response_id } , (err, res, obj) => {
             if(err) {
                 return reject(err);
             } else {
@@ -139,7 +139,7 @@ function getResponseId(answer, question_id) {
 // Este método realizará una llamada a la API de censos para comprobar que el usuario está dentro del censo de la votación
 function checkUserCensus(username, election_id) {
     return new Promise((accept, reject) => {
-        return request({ url: urlCenso+"/can_vote?id_votacion="+election_id+"&username="+username, json:true }, (err, res, obj) => {
+        return request({ url: urlCenso+"/api/can_vote?id_votacion="+election_id+"&username="+username, json:true }, (err, res, obj) => {
             if(err) {
                 return reject(err);
             } else {
