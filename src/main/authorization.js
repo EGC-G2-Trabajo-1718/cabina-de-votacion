@@ -139,7 +139,7 @@ function getResponseId(answer, question_id) {
 // Este método realizará una llamada a la API de censos para comprobar que el usuario está dentro del censo de la votación
 function checkUserCensus(username, election_id) {
     return new Promise((accept, reject) => {
-        return request({ url: urlCenso+"/can_vote?id_votacion="+election_id+"&username="+username, json:true }, (err, res, obj) => {
+        return request({ url: urlCenso+"/api/can_vote?id_votacion="+election_id+"&username="+username, json:true }, (err, res, obj) => {
             if(err) {
                 return reject(err);
             } else {
