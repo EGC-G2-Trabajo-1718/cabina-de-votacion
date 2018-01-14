@@ -13,7 +13,7 @@ function getUser(username){
     // Creamos una Promise donde se retornará o bien el mensaje correcto o un error
     return new Promise((accept, reject) => {
         // Se realiza la llamada a la API del otro grupo y el callback será interpretado como Promise
-        request({ url: urlAutenticacion+"/api/index.php?method=getUser&user="+username, json: true }, (err, res, obj) => {
+        request({ url: urlAutenticacion+"/api/getUser/"+username, json: true }, (err, res, obj) => {
             // Si la respuesta es erronea
             if(err) {
                 // Se enviará la información
