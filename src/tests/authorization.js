@@ -1,7 +1,5 @@
 var http = require("http");
 var rest = require("rest");
-var urlGrupoAutenticacion= "urlGrupoAutenticacion";
-var urlVotacion = "https://www.reqres.in";
 
 //Admite como usuarios válidos a paco1 y javi1. Si no, devuelve mensaje de error
 function getUser(username){
