@@ -1,3 +1,8 @@
+sudo: required
+
+services:
+  - docker
+
 language: node_js
 
 node_js:
@@ -7,6 +12,17 @@ node_js:
 # Instalamos grunt en el caso de que no lo esté
 before_install:
   - openssl aes-256-cbc -K $encrypted_7b716c4876f6_key -iv $encrypted_7b716c4876f6_iv -in deploy.enc -out deploy -d
+  # INICIO DE DESPLIEGUE EN UN CONTENEDOR DE LA BASE DE DATOS DEL SISTEMA DE 
+  #    VOTACIONES
+  - mkdir mysql_build
+  - cd mysql_build
+  - curl -O https://raw.githubusercontent.com/EGC-G2-Trabajo-1718/integracion/master/docker/dockerfiles/mysql/init.sql
+  - curl -O https://raw.githubusercontent.com/EGC-G2-Trabajo-1718/integracion/master/docker/dockerfiles/mysql/Dockerfile
+  - docker build -t egc/mysql .
+  - docker network create --subnet=172.18.0.0/16 dev
+  - docker run -d --network=dev --ip=172.18.2.2 -e MYSQL_ROOT_PASSWORD=nothing egc/mysql
+  - cd ..
+  # FIN DEL DESPLIEGUE, YA SE PUEDEN REALIZAR TESTS CON LA BD
   - npm install -g grunt-cli
 install:
   - npm install
@@ -18,6 +34,19 @@ script:
 after_success:
   - grunt clean
   - grunt uglify
+
+before_deploy:
+  - chmod 600 deploy && mv deploy ~/.ssh/id_rsa
+  - curl -O https://raw.githubusercontent.com/EGC-G2-Trabajo-1718/integracion/master/tools/deploy.sh
+
+
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: ssh -o StrictHostKeyChecking=no deploy@egc.duckdns.org 'bash -s' < deploy.sh cabina_votaciones
+  on:
+    branch: master
+    node: 'node'
 
 notifications:
  email:

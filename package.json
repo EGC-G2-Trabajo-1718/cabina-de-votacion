@@ -9,9 +9,9 @@
      "dependencies": {
           "rest": "2.0.0",
           "restify": "6.3.4",
-          "restify-clients": "1.5.2",
-          "async": "2.6.0",
-          "lodash": "4.17.4"
+          "bluebird": "3.5.1",
+          "request": "2.83.0",
+          "restify-clients": "1.5.2"
      },
      "devDependencies": {
           "grunt": "1.0.1",
