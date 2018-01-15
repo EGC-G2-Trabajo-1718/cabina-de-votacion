@@ -3,7 +3,7 @@ var request = require('request');
 
 // Se definen las URLs de los módulos como constantes
 const urlCenso = "http://localhost:50030"
-const urlAutenticacion= "http://172.18.2.20";
+const urlAutenticacion= "http://localhost:50020";
 const urlVotacion = "http://localhost:50040";
 const urlAlmacenamiento = "http://localhost:50050";
 
