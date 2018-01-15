@@ -2,10 +2,10 @@ var Promise = require("bluebird");
 var request = require('request');
 
 // Se definen las URLs de los módulos como constantes
-const urlCenso = "http://172.18.2.30"
-const urlAutenticacion= "http://172.18.2.20";
-const urlVotacion = "http://172.18.2.40";
-const urlAlmacenamiento = "http://172.18.2.50";
+const urlCenso = "http://localhost:50030"
+const urlAutenticacion= "http://localhost:50020";
+const urlVotacion = "http://localhost:50040";
+const urlAlmacenamiento = "http://localhost:50050";
 
 // La mayoría de las siguientes peticiones a los diferentes módulos son parecidas, se va a detallar el contenido de la siguiente como ejemplo
 // El método siguiente se encarga de obtener el usuario dado su id de usuario
