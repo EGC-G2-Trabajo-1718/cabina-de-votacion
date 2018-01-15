@@ -5,7 +5,7 @@ var request = require('request');
 const urlCenso = "http://172.18.2.30"
 const urlAutenticacion= "http://172.18.2.20";
 const urlVotacion = "http://172.18.2.40";
-const urlAlmacenamiento = "http://172.18.2.50";
+const urlAlmacenamiento = "http://localhost:50050";
 
 // La mayoría de las siguientes peticiones a los diferentes módulos son parecidas, se va a detallar el contenido de la siguiente como ejemplo
 // El método siguiente se encarga de obtener el usuario dado su id de usuario
